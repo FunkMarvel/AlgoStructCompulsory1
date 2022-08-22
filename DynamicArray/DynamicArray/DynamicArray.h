@@ -5,7 +5,7 @@
 
 using namespace std;
 
-template<typename T>
+template <typename T>
 class DynamicArray
 {
 private:
@@ -13,15 +13,15 @@ private:
     T* Data_{nullptr};
 
     // internal variables:
-    size_t GrowthFactor_{2};  // amount to increase capacity by when reallocating.
-    size_t Capacity_{2};  // initial amount elements to allocate data for.
-    size_t Size_{0};  // initial amount of elements in DynamicArray.
+    size_t GrowthFactor_{2}; // amount to increase capacity by when reallocating.
+    size_t Capacity_{2}; // initial amount elements to allocate data for.
+    size_t Size_{0}; // initial amount of elements in DynamicArray.
 
     // internal methods:
     void ReallocateData();
     void GrowAndReallocate();
     void ShrinkToFit();
-    
+
 public:
     // constructors and destructors:
     DynamicArray();
@@ -36,10 +36,7 @@ public:
     T Delete(int Index);
     int Find(T SearchValue);
     // Thomas
-   static void BinarySort(DynamicArray<T>& SomeArr);
-    static   T BinarySearch(DynamicArray<T>& arr,int n,T key);
-
-   
+    static T BinarySearch(DynamicArray<T>& arr, T key);
     int BinarySearch(T key);
 
     // opperatpor overloads:
@@ -62,9 +59,8 @@ public:
     }
 
     // getters:
-    size_t GetSize() const {return Size_;}
-    size_t GetCapacity() const {return Capacity_;}
-    
+    size_t GetSize() const { return Size_; }
+    size_t GetCapacity() const { return Capacity_; }
 };
 
 template <typename T>
@@ -100,7 +96,7 @@ DynamicArray<T>::DynamicArray(size_t InitialSize, T ElementToFill) : DynamicArra
 template <typename T>
 DynamicArray<T>::DynamicArray(std::initializer_list<T> ArgList) : DynamicArray(ArgList.size())
 {
-    memcpy(Data_, ArgList.begin(), ArgList.size()*sizeof(T));
+    memcpy(Data_, ArgList.begin(), ArgList.size() * sizeof(T));
 }
 
 template <typename T>
@@ -138,7 +134,6 @@ int DynamicArray<T>::Find(T SearchValue)
 }
 
 
-
 /**
  * \brief Access element in array at given index.
  * \param Index of element to access.
@@ -159,7 +154,7 @@ template <typename T>
 void DynamicArray<T>::ReallocateData()
 {
     auto* TempData = new T[Capacity_];
-    memcpy(TempData, Data_, Size_*sizeof(T));
+    memcpy(TempData, Data_, Size_ * sizeof(T));
 
     delete[] Data_;
     Data_ = TempData;
@@ -178,36 +173,18 @@ void DynamicArray<T>::GrowAndReallocate()
 template <typename T>
 void DynamicArray<T>::ShrinkToFit()
 {
-    if (Capacity_ <= GrowthFactor_*Size_) return;
+    if (Capacity_ <= GrowthFactor_ * Size_) return;
     Capacity_ /= GrowthFactor_;
 
     ReallocateData();
 }
 
 //Thomas
-template <typename T>
-void DynamicArray<T>::BinarySort(DynamicArray<T>& SomeArr)
-{
-
-    int n = SomeArr.GetSize();
-    int key;
-    cin >> key;
-    
-    int index = SomeArr.BinarySearch(SomeArr,n,key);
-    
-    if (index != -1)
-    {
-        cout << key << " Is present in the index:" << index << endl;
-    }
-    else
-    {
-        cout << " Is MISSING from the index!" << endl;
-    }
-}
 
 template <typename T>
-T  DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, int n, T key)
+T DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, T key)
 {
+    int n = arr.GetSize();
     int Start = 0;
     // N - 1 is the last element in an array
     int End = n - 1;
@@ -220,7 +197,7 @@ T  DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, int n, T key)
             return mid;
         }
         //take the end marker and put it on mid - 1
-        else if (arr[mid] > key)
+        if (arr[mid] > key)
         {
             End = mid - 1;
         }
@@ -237,7 +214,6 @@ T  DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, int n, T key)
 template <typename T>
 int DynamicArray<T>::BinarySearch(T key)
 {
-    
     int Start = 0;
     // N - 1 is the last element in an array
     int End = Size_ - 1;
@@ -250,7 +226,7 @@ int DynamicArray<T>::BinarySearch(T key)
             return mid;
         }
         //take the end marker and put it on mid - 1
-        else if (Data_[mid] > key)
+        if (Data_[mid] > key)
         {
             End = mid - 1;
         }
@@ -263,7 +239,3 @@ int DynamicArray<T>::BinarySearch(T key)
 
     return -1;
 }
-
-
-
-
