@@ -34,7 +34,23 @@ public:
     int Find(T SearchValue);
 
     // opperatpor overloads:
-    T& operator[](int Index);
+    T& operator[](size_t Index);
+
+    /**
+     * \brief Add elements of array to out-stream.
+     * \param out Ostream reference.
+     * \param SomeArray array to extract.
+     * \return Ostream reference.
+     */
+    friend std::ostream& operator<<(std::ostream& out, DynamicArray<T>& SomeArray)
+    {
+        for (size_t i = 0; i < SomeArray.GetSize(); ++i)
+        {
+            if (i != 0 && i != SomeArray.GetSize()) out << " ";
+            out << SomeArray[i];
+        }
+        return out;
+    }
 
     // getters:
     size_t GetSize() const {return Size_;}
@@ -51,7 +67,7 @@ DynamicArray<T>::DynamicArray()
 
 /**
  * \brief Create empty array with given number of elements.
- * \param InitialSize - number of elements.
+ * \param InitialSize Number of elements.
  */
 template <typename T>
 DynamicArray<T>::DynamicArray(size_t InitialSize)
@@ -62,8 +78,8 @@ DynamicArray<T>::DynamicArray(size_t InitialSize)
 
 /**
  * \brief Create array of given size, and filled with given element.
- * \param InitialSize - number of elments.
- * \param ElementToFill - Value to fill array with.
+ * \param InitialSize Number of elments.
+ * \param ElementToFill Value to fill array with.
  */
 template <typename T>
 DynamicArray<T>::DynamicArray(size_t InitialSize, T ElementToFill) : DynamicArray(InitialSize)
@@ -87,7 +103,7 @@ DynamicArray<T>::~DynamicArray()
 
 /**
  * \brief Add new value to end of array.
- * \param NewValue - value to be added.
+ * \param NewValue Value to be added.
  */
 template <typename T>
 void DynamicArray<T>::Append(T NewValue)
@@ -118,7 +134,7 @@ int DynamicArray<T>::Find(T SearchValue)
  * \return Reference to element at given index.
  */
 template <typename T>
-T& DynamicArray<T>::operator[](int Index)
+T& DynamicArray<T>::operator[](size_t Index)
 {
     if (Index < 0 || Index >= Size_) throw std::runtime_error("Index out of range");
     return Data_[Index];
