@@ -5,7 +5,7 @@
 using namespace std;
 
 
-
+int BinarySort(DynamicArray<int> Arr);
 
 
 
@@ -31,8 +31,31 @@ int main()
 
 //Test
 
-    Array.BinarySearch(Array);
+    //DynamicArray<int>::BinarySort(Array);
 
+   // cout << Array.BinarySearch(5);
+    cout << BinarySort(Array);
+    return 0;
+}
+
+
+int BinarySort(DynamicArray<int> Arr)
+{
+    
+    int n = Arr.GetSize();
+    int key;
+    cin >> key;
+    
+    int index = DynamicArray<int>::BinarySearch(Arr,n,key);
+    
+    if (index != -1)
+    {
+        cout << key << " Is present in the index:" << index << endl;
+    }
+    else
+    {
+        cout << " Is MISSING from the index!" << endl;
+    }
 
     return 0;
 }

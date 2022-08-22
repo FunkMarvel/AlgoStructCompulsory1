@@ -36,8 +36,11 @@ public:
     T Delete(int Index);
     int Find(T SearchValue);
     // Thomas
-    void BinarySearch(DynamicArray<T>& arr); 
-    T BinarySort(DynamicArray<T>& arr,int n,T key);
+   static void BinarySort(DynamicArray<T>& SomeArr);
+    static   T BinarySearch(DynamicArray<T>& arr,int n,T key);
+
+   
+    int BinarySearch(T key);
 
     // opperatpor overloads:
     T& operator[](size_t Index);
@@ -179,14 +182,14 @@ void DynamicArray<T>::ShrinkToFit()
 
 //Thomas
 template <typename T>
-void DynamicArray<T>::BinarySearch(DynamicArray<T>& arr)
+void DynamicArray<T>::BinarySort(DynamicArray<T>& SomeArr)
 {
 
-    int n = arr.GetSize();
+    int n = SomeArr.GetSize();
     int key;
     cin >> key;
     
-    int index = arr.BinarySort(arr,n,key);
+    int index = SomeArr.BinarySearch(SomeArr,n,key);
     
     if (index != -1)
     {
@@ -199,7 +202,7 @@ void DynamicArray<T>::BinarySearch(DynamicArray<T>& arr)
 }
 
 template <typename T>
-T  DynamicArray<T>::BinarySort(DynamicArray<T>& arr, int n, T key)
+T  DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, int n, T key)
 {
     int Start = 0;
     // N - 1 is the last element in an array
@@ -214,6 +217,36 @@ T  DynamicArray<T>::BinarySort(DynamicArray<T>& arr, int n, T key)
         }
         //take the end marker and put it on mid - 1
         else if (arr[mid] > key)
+        {
+            End = mid - 1;
+        }
+        //take the Start marker and put it on mid + 1
+        else
+        {
+            Start = mid + 1;
+        }
+    }
+
+    return -1;
+}
+
+template <typename T>
+int DynamicArray<T>::BinarySearch(T key)
+{
+    
+    int Start = 0;
+    // N - 1 is the last element in an array
+    int End = Size_ - 1;
+    //K = Log(2)^N ---- O(Log.N) Example(16->8->4->2->1) log(2)^16 = 4.
+    while (Start <= End)
+    {
+        int mid = (Start + End) / 2;
+        if (Data_[mid] == key)
+        {
+            return mid;
+        }
+        //take the end marker and put it on mid - 1
+        else if (Data_[mid] > key)
         {
             End = mid - 1;
         }
