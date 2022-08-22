@@ -30,13 +30,13 @@ public:
     DynamicArray(std::initializer_list<T> ArgList);
     ~DynamicArray();
 
-    void BinarySearch(DynamicArray<T>& arr);
     // public array methods:
     void Append(T NewValue);
     void Expand(T NewCapacity);
     T Delete(int Index);
     int Find(T SearchValue);
     // Thomas
+    void BinarySearch(DynamicArray<T>& arr); 
     T BinarySort(DynamicArray<T>& arr,int n,T key);
 
     // opperatpor overloads:
@@ -177,6 +177,7 @@ void DynamicArray<T>::ShrinkToFit()
 {
 }
 
+//Thomas
 template <typename T>
 void DynamicArray<T>::BinarySearch(DynamicArray<T>& arr)
 {
@@ -197,7 +198,6 @@ void DynamicArray<T>::BinarySearch(DynamicArray<T>& arr)
     }
 }
 
-//Thomas
 template <typename T>
 T  DynamicArray<T>::BinarySort(DynamicArray<T>& arr, int n, T key)
 {
