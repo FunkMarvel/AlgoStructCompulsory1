@@ -3,7 +3,7 @@
 
 int main()
 {
-    DynamicArray<int> Array{};
+    DynamicArray<int> Array{3, 4, 5};
     Array.Append(11);
     Array.Append(12);
     std::cout << Array[0] << std::endl;
