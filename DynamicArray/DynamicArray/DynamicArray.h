@@ -1,4 +1,5 @@
-﻿#include <stdexcept>
+﻿#pragma once
+#include <stdexcept>
 
 template<typename T>
 class DynamicArray
@@ -65,10 +66,8 @@ DynamicArray<T>::DynamicArray(int InitialSize)
 template <typename T>
 DynamicArray<T>::DynamicArray(int InitialSize, T ElementToFill) : DynamicArray(InitialSize)
 {
-    for (auto& Elem : Data_)
-    {
-        Elem = ElementToFill;
-    }
+    for (int i = 0; i < Capacity_; ++i)
+        Data_[i] = ElementToFill;
 }
 
 template <typename T>
