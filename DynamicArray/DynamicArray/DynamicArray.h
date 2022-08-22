@@ -14,6 +14,7 @@ private:
 
     // internal methods:
     void ReallocateData();
+    void GrowAndReallocate();
     void ShrinkToFit();
     
 public:
@@ -77,10 +78,15 @@ DynamicArray<T>::~DynamicArray()
     delete[] Data_;
 }
 
+/**
+ * \brief Add new value to end of array.
+ * \param NewValue - value to be added.
+ */
 template <typename T>
 void DynamicArray<T>::Append(T NewValue)
 {
-    if (Size_ >= Capacity_) ReallocateData();
+    // reallocate data array if necessary:
+    if (Size_ >= Capacity_) GrowAndReallocate();
     Data_[Size_++] = NewValue;
 }
 
@@ -99,6 +105,11 @@ int DynamicArray<T>::Find(T SearchValue)
 {
 }
 
+/**
+ * \brief Access element in array at given index.
+ * \param Index of element to access.
+ * \return Reference to element at given index.
+ */
 template <typename T>
 T& DynamicArray<T>::operator[](int Index)
 {
@@ -106,9 +117,27 @@ T& DynamicArray<T>::operator[](int Index)
     return Data_[Index];
 }
 
+/**
+ * \brief Reallocate internal data array.
+ */
 template <typename T>
 void DynamicArray<T>::ReallocateData()
 {
+    auto* TempData = new T[Capacity_];
+    memcpy(TempData, Data_, Size_*sizeof(T));
+
+    delete[] Data_;
+    Data_ = TempData;
+}
+
+/**
+ * \brief Increase internal capacity and reallocate data.
+ */
+template <typename T>
+void DynamicArray<T>::GrowAndReallocate()
+{
+    Capacity_ *= GrowthFactor_;
+    ReallocateData();
 }
 
 template <typename T>
