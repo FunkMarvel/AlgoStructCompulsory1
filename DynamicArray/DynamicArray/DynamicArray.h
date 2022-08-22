@@ -55,7 +55,7 @@ template <typename T>
 DynamicArray<T>::DynamicArray(int InitialSize)
 {
     Size_ = Capacity_ = InitialSize;
-    Data_ = new T[Capacity_]
+    Data_ = new T[Capacity_];
 }
 
 /**
