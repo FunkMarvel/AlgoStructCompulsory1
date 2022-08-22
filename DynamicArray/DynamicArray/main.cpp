@@ -1,8 +1,7 @@
 #include <iostream>
-#include <vector>
 #include "DynamicArray.h"
 
-int main(int argc, char* argv[])
+int main()
 {
     DynamicArray<int> Array{};
     Array.Append(11);
