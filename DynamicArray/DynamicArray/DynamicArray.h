@@ -25,7 +25,7 @@ private:
 public:
     // constructors and destructors:
     DynamicArray();
-    DynamicArray(size_t InitialSize);
+    explicit DynamicArray(size_t InitialSize);
     DynamicArray(size_t InitialSize, T ElementToFill);
     DynamicArray(std::initializer_list<T> ArgList);
     ~DynamicArray();
@@ -36,8 +36,8 @@ public:
     T Delete(int Index);
     int Find(T SearchValue);
     // Thomas
-   static void BinarySort(DynamicArray<T>& SomeArr);
-    static   T BinarySearch(DynamicArray<T>& arr,int n,T key);
+    static void BinarySort(DynamicArray<T>& SomeArr);
+    static T BinarySearch(DynamicArray<T>& arr,int n,T key);
 
    
     int BinarySearch(T key);
