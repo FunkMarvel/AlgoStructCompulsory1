@@ -19,6 +19,8 @@ private:
 public:
     // constructors and destructors:
     DynamicArray();
+    DynamicArray(int InitialSize);
+    DynamicArray(int InitialSize, T ElementToFill);
     ~DynamicArray();
 
     // public array methods:
@@ -41,6 +43,31 @@ DynamicArray<T>::DynamicArray()
 {
     // allocate private data array:
     Data_ = new T[Capacity_];
+}
+
+/**
+ * \brief Create empty array with given number of elements.
+ * \param InitialSize - number of elements.
+ */
+template <typename T>
+DynamicArray<T>::DynamicArray(int InitialSize)
+{
+    Size_ = Capacity_ = InitialSize;
+    Data_ = new T[Capacity_];
+}
+
+/**
+ * \brief Create array of given size, and filled with given element.
+ * \param InitialSize - number of elments.
+ * \param ElementToFill - Value to fill array with.
+ */
+template <typename T>
+DynamicArray<T>::DynamicArray(int InitialSize, T ElementToFill) : DynamicArray(InitialSize)
+{
+    for (auto& Elem : Data_)
+    {
+        Elem = ElementToFill;
+    }
 }
 
 template <typename T>
