@@ -29,7 +29,6 @@ int main()
     std::cout << Array[1] << std::endl;
 
     //Test
-
     cout << DynamicArray<int>::BinarySearch(Array, 5);
     cout << Array.BinarySearch(5);
     BinarySort(Array);
