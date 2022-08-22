@@ -166,4 +166,8 @@ void DynamicArray<T>::GrowAndReallocate()
 template <typename T>
 void DynamicArray<T>::ShrinkToFit()
 {
+    if (Capacity_ <= GrowthFactor_*Size_) return;
+    Capacity_ /= GrowthFactor_;
+
+    ReallocateData();
 }
