@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,c++,jetbrains+all,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,c++,jetbrains+all,visualstudio
 
+*.xml
+
 ### C++ ###
 # Prerequisites
 *.d
