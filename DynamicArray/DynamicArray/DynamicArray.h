@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include <stdexcept>
 #include <initializer_list>
+#include <iostream>
+
+using namespace std;
 
 template<typename T>
 class DynamicArray
@@ -32,6 +35,9 @@ public:
     void Expand(T NewCapacity);
     T Delete(int Index);
     int Find(T SearchValue);
+    // Thomas
+    void BinarySearch(DynamicArray<T>& arr); 
+    T BinarySort(DynamicArray<T>& arr,int n,T key);
 
     // opperatpor overloads:
     T& operator[](size_t Index);
@@ -128,6 +134,8 @@ int DynamicArray<T>::Find(T SearchValue)
 {
 }
 
+
+
 /**
  * \brief Access element in array at given index.
  * \param Index of element to access.
@@ -139,6 +147,7 @@ T& DynamicArray<T>::operator[](size_t Index)
     if (Index < 0 || Index >= Size_) throw std::runtime_error("Index out of range");
     return Data_[Index];
 }
+
 
 /**
  * \brief Reallocate internal data array.
@@ -171,3 +180,57 @@ void DynamicArray<T>::ShrinkToFit()
 
     ReallocateData();
 }
+
+//Thomas
+template <typename T>
+void DynamicArray<T>::BinarySearch(DynamicArray<T>& arr)
+{
+
+    int n = arr.GetSize();
+    int key;
+    cin >> key;
+    
+    int index = arr.BinarySort(arr,n,key);
+    
+    if (index != -1)
+    {
+        cout << key << " Is present in the index:" << index << endl;
+    }
+    else
+    {
+        cout << " Is MISSING from the index!" << endl;
+    }
+}
+
+template <typename T>
+T  DynamicArray<T>::BinarySort(DynamicArray<T>& arr, int n, T key)
+{
+    int Start = 0;
+    // N - 1 is the last element in an array
+    int End = n - 1;
+    //K = Log(2)^N ---- O(Log.N) Example(16->8->4->2->1) log(2)^16 = 4.
+    while (Start <= End)
+    {
+        int mid = (Start + End) / 2;
+        if (arr[mid] == key)
+        {
+            return mid;
+        }
+        //take the end marker and put it on mid - 1
+        else if (arr[mid] > key)
+        {
+            End = mid - 1;
+        }
+        //take the Start marker and put it on mid + 1
+        else
+        {
+            Start = mid + 1;
+        }
+    }
+
+    return -1;
+}
+
+
+
+
