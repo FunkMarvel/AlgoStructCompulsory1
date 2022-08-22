@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <stdexcept>
+#include <initializer_list>
 
 template<typename T>
 class DynamicArray
@@ -9,9 +10,9 @@ private:
     T* Data_{nullptr};
 
     // internal variables:
-    int GrowthFactor_{2};  // amount to increase capacity by when reallocating.
-    int Capacity_{2};  // initial amount elements to allocate data for.
-    int Size_{0};  // initial amount of elements in DynamicArray.
+    size_t GrowthFactor_{2};  // amount to increase capacity by when reallocating.
+    size_t Capacity_{2};  // initial amount elements to allocate data for.
+    size_t Size_{0};  // initial amount of elements in DynamicArray.
 
     // internal methods:
     void ReallocateData();
@@ -21,8 +22,9 @@ private:
 public:
     // constructors and destructors:
     DynamicArray();
-    DynamicArray(int InitialSize);
-    DynamicArray(int InitialSize, T ElementToFill);
+    DynamicArray(size_t InitialSize);
+    DynamicArray(size_t InitialSize, T ElementToFill);
+    DynamicArray(std::initializer_list<T> ArgList);
     ~DynamicArray();
 
     // public array methods:
@@ -35,8 +37,8 @@ public:
     T& operator[](int Index);
 
     // getters:
-    int GetSize() const {return Size_;}
-    int GetCapacity() const {return Capacity_;}
+    size_t GetSize() const {return Size_;}
+    size_t GetCapacity() const {return Capacity_;}
     
 };
 
@@ -52,7 +54,7 @@ DynamicArray<T>::DynamicArray()
  * \param InitialSize - number of elements.
  */
 template <typename T>
-DynamicArray<T>::DynamicArray(int InitialSize)
+DynamicArray<T>::DynamicArray(size_t InitialSize)
 {
     Size_ = Capacity_ = InitialSize;
     Data_ = new T[Capacity_];
@@ -64,10 +66,16 @@ DynamicArray<T>::DynamicArray(int InitialSize)
  * \param ElementToFill - Value to fill array with.
  */
 template <typename T>
-DynamicArray<T>::DynamicArray(int InitialSize, T ElementToFill) : DynamicArray(InitialSize)
+DynamicArray<T>::DynamicArray(size_t InitialSize, T ElementToFill) : DynamicArray(InitialSize)
 {
     for (int i = 0; i < Capacity_; ++i)
         Data_[i] = ElementToFill;
+}
+
+template <typename T>
+DynamicArray<T>::DynamicArray(std::initializer_list<T> ArgList) : DynamicArray(ArgList.size())
+{
+    memcpy(Data_, ArgList.begin(), ArgList.size()*sizeof(T));
 }
 
 template <typename T>
