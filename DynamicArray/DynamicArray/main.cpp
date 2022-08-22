@@ -1,5 +1,13 @@
+#include <algorithm>
 #include <iostream>
 #include "DynamicArray.h"
+
+using namespace std;
+
+
+
+
+
 
 int main()
 {
@@ -20,5 +28,11 @@ int main()
     std::cout << Array[1] << std::endl;
 
     std::cout << Array[1] << std::endl;
+
+//Test
+
+    Array.BinarySearch(Array);
+
+
     return 0;
 }
