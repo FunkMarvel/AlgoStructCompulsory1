@@ -20,7 +20,6 @@ private:
     // internal methods:
     void ReallocateData();
     void GrowAndReallocate();
-    void ShrinkToFit();
 
 public:
     // constructors and destructors:
@@ -32,9 +31,12 @@ public:
 
     // public array methods:
     void Append(T NewValue);
-    void Expand(T NewCapacity);
-    T Delete(int Index);
+    void Expand();
+    void Expand(size_t NewCapacity);
+    T Remove(size_t Index);
+    T RemoveLastElement();
     int Find(T SearchValue);
+    void ShrinkToFit();
     // Thomas
     static T BinarySearch(DynamicArray<T>& arr, T key);
 
@@ -97,7 +99,7 @@ DynamicArray<T>::DynamicArray(size_t InitialSize, T ElementToFill) : DynamicArra
 template <typename T>
 DynamicArray<T>::DynamicArray(std::initializer_list<T> ArgList) : DynamicArray(ArgList.size())
 {
-    memcpy(Data_, ArgList.begin(), ArgList.size() * sizeof(T));
+    memcpy(Data_, ArgList.begin(), ArgList.size() * sizeof(Data_[0]));
 }
 
 template <typename T>
@@ -119,14 +121,61 @@ void DynamicArray<T>::Append(T NewValue)
     Data_[Size_++] = NewValue;
 }
 
+/**
+ * \brief Reallocates data with double capacity.
+ */
 template <typename T>
-void DynamicArray<T>::Expand(T NewCapacity)
+void DynamicArray<T>::Expand()
 {
+    GrowAndReallocate();
 }
 
+/**
+ * \brief Reallocates data to array with given capacity, if possible.
+ * \param NewCapacity Desired new capacity of array.
+ */
 template <typename T>
-T DynamicArray<T>::Delete(int Index)
+void DynamicArray<T>::Expand(size_t NewCapacity)
 {
+    // if given capacity is less than the number of elements
+    // the array will instead shrink to smallest Size that can hold all data.
+    if (NewCapacity <= Size_)
+    {
+        Capacity_ = Size_;
+        ReallocateData();
+        return;
+    }
+
+    Capacity_ = NewCapacity;
+    ReallocateData();
+}
+
+/**
+ * \brief Remove and return element at given index.
+ * \param Index Element to remove.
+ * \return Removed element.
+ */
+template <typename T>
+T DynamicArray<T>::Remove(size_t Index)
+{
+    if (Index < 0 || Index >= Size_) throw std::runtime_error("Index out of range");
+    
+    auto RemovedElement = Data_[Index];  // retrieve value for return.
+    // using memmove to copy data. because source and destination overlaps:
+    memmove(Data_+Index, Data_+Index+1, (Size_-Index-1)*sizeof(Data_[0]));
+    
+    if (--Size_ < Capacity_/2) ShrinkToFit();
+    return RemovedElement;
+}
+
+/**
+ * \brief Returns and removes last element in array.
+ * \return Removed element.
+ */
+template <typename T>
+T DynamicArray<T>::RemoveLastElement()
+{
+    return Remove(Size_-1);
 }
 
 template <typename T>
@@ -154,9 +203,11 @@ T& DynamicArray<T>::operator[](size_t Index)
 template <typename T>
 void DynamicArray<T>::ReallocateData()
 {
+    // allocating and copying data:
     auto* TempData = new T[Capacity_];
-    memcpy(TempData, Data_, Size_ * sizeof(T));
+    memcpy(TempData, Data_, Size_ * sizeof(Data_[0]));
 
+    // deleting old data and retargeting pointer:
     delete[] Data_;
     Data_ = TempData;
 }
@@ -171,6 +222,9 @@ void DynamicArray<T>::GrowAndReallocate()
     ReallocateData();
 }
 
+/**
+ * \brief Shrinks array if < 50% of allocated memory is used.
+ */
 template <typename T>
 void DynamicArray<T>::ShrinkToFit()
 {
