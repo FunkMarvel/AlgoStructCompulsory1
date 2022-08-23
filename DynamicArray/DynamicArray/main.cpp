@@ -25,13 +25,17 @@ int main()
 
     std::cout << Array << std::endl;
     std::cout << Array[1] << std::endl;
-
-    std::cout << Array[1] << std::endl;
+    std::cout << Array.RemoveLastElement() << std::endl;
+    std::cout << Array.RemoveLastElement() << std::endl;
+    std::cout << Array.RemoveLastElement() << std::endl;
+    std::cout << Array<< std::endl;
+    std::cout << "Size: " << Array.GetSize() << std::endl;
+    std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
 
     //Test
     cout << DynamicArray<int>::BinarySearch(Array, 5);
     cout << Array.BinarySearch(5);
-    BinarySort(Array);
+    // BinarySort(Array);
     return 0;
 }
 
