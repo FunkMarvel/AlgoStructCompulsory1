@@ -35,9 +35,11 @@ public:
     void Expand(T NewCapacity);
     T Delete(int Index);
     int Find(T SearchValue);
-    // Thomas
-    static T BinarySearch(DynamicArray<T>& arr, T key);
-
+    // LinearSearch
+    static T LinearSearch(DynamicArray<T>& arr, T Key);
+    int LinearSearch(T Key);
+    // BinarySearch
+    static T BinarySearch(DynamicArray<T>& arr, T Key);
     int BinarySearch(T key);
 
     // opperatpor overloads:
@@ -135,6 +137,8 @@ int DynamicArray<T>::Find(T SearchValue)
 }
 
 
+
+
 /**
  * \brief Access element in array at given index.
  * \param Index of element to access.
@@ -180,10 +184,42 @@ void DynamicArray<T>::ShrinkToFit()
     ReallocateData();
 }
 
-//Thomas
 
 template <typename T>
-T DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, T key)
+T DynamicArray<T>::LinearSearch(DynamicArray<T>& arr, T Key)
+{
+    int n = arr.GetSize();
+    for (int i = 0; i < n; i++)
+    {
+        //check if current element matches the key
+        if (arr[i] == Key)
+        {
+            return i;
+        }
+    }
+    //out of the loop
+    return -1;
+}
+
+template <typename T>
+int DynamicArray<T>::LinearSearch(T Key)
+{
+    
+    for (int i = 0; i < Size_; i++)
+    {
+        //check if current element matches the key
+        if (Data_[i] == Key)
+        {
+            return i;
+        }
+    }
+    //out of the loop
+    return -1;
+}
+
+
+template <typename T>
+T DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, T Key)
 {
     int n = arr.GetSize();
     int Start = 0;
@@ -193,12 +229,12 @@ T DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, T key)
     while (Start <= End)
     {
         int mid = (Start + End) / 2;
-        if (arr[mid] == key)
+        if (arr[mid] == Key)
         {
             return mid;
         }
         //take the end marker and put it on mid - 1
-        if (arr[mid] > key)
+        if (arr[mid] > Key)
         {
             End = mid - 1;
         }
@@ -240,3 +276,5 @@ int DynamicArray<T>::BinarySearch(T key)
 
     return -1;
 }
+
+
