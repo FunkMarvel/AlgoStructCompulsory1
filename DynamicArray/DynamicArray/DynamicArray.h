@@ -14,7 +14,7 @@ private:
 
     // internal variables:
     size_t GrowthFactor_{2}; // amount to increase capacity by when reallocating.
-    size_t Capacity_{2}; // initial amount elements to allocate data for.
+    size_t Capacity_{1}; // initial amount elements to allocate data for.
     size_t Size_{0}; // initial amount of elements in DynamicArray.
 
     // internal methods:
