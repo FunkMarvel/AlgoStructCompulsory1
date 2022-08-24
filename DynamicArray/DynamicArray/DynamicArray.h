@@ -29,11 +29,12 @@ public:
 
     // public array methods:
     void Append(T NewValue);
+    void Insert(size_t Index, T NewValue);
     void Expand();
     void Expand(size_t NewCapacity);
     T Remove(size_t Index);
     T RemoveLastElement();
-    int Find(T SearchValue);
+    int Find(T SearchValue, bool Linear = true);
     void ShrinkToFit();
     
     // Thomas
@@ -124,6 +125,23 @@ void DynamicArray<T>::Append(T NewValue)
 }
 
 /**
+ * \brief Insert new element at given index.
+ * \param Index Index to insert at.
+ * \param NewValue Element to insert.
+ */
+template <typename T>
+void DynamicArray<T>::Insert(size_t Index,T NewValue)
+{
+    if (Index < 0 || Index > Size_) throw std::runtime_error("Index out of range");
+    if (Index == Size_) Append(NewValue);
+    if (++Size_ >= Capacity_) GrowAndReallocate(); // reallocate if no space for new element.
+
+    // moving existing elements to make space for new element, and then inserting:
+    memmove(Data_+Index+1, Data_+Index, (Size_ - Index - 1)*sizeof(Data_[0]));
+    Data_[Index] = NewValue;
+}
+
+/**
  * \brief Reallocates data with double capacity.
  */
 template <typename T>
@@ -180,9 +198,17 @@ T DynamicArray<T>::RemoveLastElement()
     return Remove(Size_-1);
 }
 
+/**
+ * \brief Find index of element in array.
+ * \param SearchValue Element to search for.
+ * \param Linear If true, use linear search.
+ * \return Returns index of element, or -1 if element not in array.
+ */
 template <typename T>
-int DynamicArray<T>::Find(T SearchValue)
+int DynamicArray<T>::Find(T SearchValue, bool Linear)
 {
+    if (Linear) return LinearSearch(SearchValue);
+    return BinarySearch(SearchValue);
 }
 
 
