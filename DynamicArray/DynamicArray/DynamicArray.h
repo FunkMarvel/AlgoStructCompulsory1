@@ -3,6 +3,10 @@
 #include <initializer_list>
 #include <iostream>
 
+/**
+ * \brief Dynamic Array class made by Anders Petershagen Åsbø and Thomas Dalstein Sæther.
+ * \tparam T Element data type.
+ */
 template <typename T>
 class DynamicArray
 {
@@ -27,6 +31,10 @@ public:
     DynamicArray(std::initializer_list<T> ArgList);
     DynamicArray(const DynamicArray<T>& OtherArray);
     ~DynamicArray();
+
+    // getters:
+    size_t GetSize() const { return Size_; }
+    size_t GetCapacity() const { return Capacity_; }
 
     // public array methods:
     void Append(T NewValue);
@@ -64,10 +72,6 @@ public:
         }
         return out;
     }
-
-    // getters:
-    size_t GetSize() const { return Size_; }
-    size_t GetCapacity() const { return Capacity_; }
 };
 
 template <typename T>
