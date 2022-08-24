@@ -11,7 +11,7 @@ private:
     T* Data_{nullptr};
 
     // internal variables:
-    size_t GrowthFactor_{2}; // amount to increase capacity by when reallocating.
+    const size_t GrowthFactor_{2}; // amount to increase capacity by when reallocating.
     size_t Capacity_{1}; // initial amount elements to allocate data for.
     size_t Size_{0}; // initial amount of elements in DynamicArray.
 
@@ -20,11 +20,12 @@ private:
     void GrowAndReallocate();
 
 public:
-    // constructors and destructors:
+    // constructors and destructor:
     DynamicArray();
     explicit DynamicArray(size_t InitialSize);
     DynamicArray(size_t InitialSize, T ElementToFill);
     DynamicArray(std::initializer_list<T> ArgList);
+    DynamicArray(const DynamicArray<T>& OtherArray);
     ~DynamicArray();
 
     // public array methods:
@@ -103,6 +104,20 @@ template <typename T>
 DynamicArray<T>::DynamicArray(std::initializer_list<T> ArgList) : DynamicArray(ArgList.size())
 {
     memcpy(Data_, ArgList.begin(), ArgList.size() * sizeof(Data_[0]));
+}
+
+/**
+ * \brief Copy constructor creating new array from existing array.
+ * \param OtherArray Array to copy from.
+ */
+template <typename T>
+DynamicArray<T>::DynamicArray(const DynamicArray<T>& OtherArray)
+{
+    Capacity_ = OtherArray.GetCapacity();
+    Size_ = OtherArray.GetSize();
+    
+    Data_ = new T[Capacity_];
+    memccpy(Data_, OtherArray.Data_, (sizeof(OtherArray.Data_)));
 }
 
 template <typename T>
