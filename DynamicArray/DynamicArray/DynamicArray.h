@@ -35,7 +35,7 @@ public:
     void Expand(size_t NewCapacity);
     T Remove(size_t Index);
     T RemoveLastElement();
-    int Find(T SearchValue, bool Linear = true);
+    int Find(T SearchValue, bool Linear = false);
     void ShrinkToFit();
     
     // Thomas
@@ -113,11 +113,11 @@ DynamicArray<T>::DynamicArray(std::initializer_list<T> ArgList) : DynamicArray(A
 template <typename T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& OtherArray)
 {
-    Capacity_ = OtherArray.GetCapacity();
-    Size_ = OtherArray.GetSize();
+    Capacity_ = OtherArray.Capacity_;
+    Size_ = OtherArray.Size_;
     
     Data_ = new T[Capacity_];
-    memccpy(Data_, OtherArray.Data_, (sizeof(OtherArray.Data_)));
+    memcpy(Data_, OtherArray.Data_, Size_*(sizeof(Data_[0])));
 }
 
 template <typename T>
