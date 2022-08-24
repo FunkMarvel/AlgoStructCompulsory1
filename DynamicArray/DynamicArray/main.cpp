@@ -4,15 +4,18 @@
 
 using namespace std;
 
-void LinearSort(DynamicArray<int>& Arr);
 
 
-
+//searching
 void BinarySort(DynamicArray<int>& Arr);
+void LinearSort(DynamicArray<int>& Arr);
+// sorting algorithm
 void selectionSort(DynamicArray<int> &arr);
-
 void BubbleSort(DynamicArray<int> arr);
 bool CompareBubbleSort(int a, int b);
+
+void MegeSort(DynamicArray<int> &arr);
+
 
 
 
@@ -59,6 +62,10 @@ int main()
 }
 
 
+/**
+ * \brief Sorting array with BinarySort
+ * \param Arr Array to be sorted
+ */
 void BinarySort(DynamicArray<int>& Arr)
 {
     int n = Arr.GetSize();
@@ -114,10 +121,7 @@ void selectionSort(DynamicArray<int> &arr)
         swap(arr[currentMin],arr[i]);  
         
     }
-    for (int k = 0; k < n; k++)
-    {
-        cout << arr[k] << " ";
-    }
+    cout << arr;
 
     
 }
@@ -163,3 +167,21 @@ void BubbleSort(DynamicArray<int> arr)
     cout <<"How many Swaps arr needed :" << TimeSwapped << endl;
 }
 
+void MegeSort(DynamicArray<int>& arr)
+{
+    int n = arr.GetSize();
+    int Left = 0;
+    int Right = n - 1;
+    int Mid = (Left + Right) / 2;
+
+    int TempArrayOne = Mid - Left + 1;
+    int TempArrayTwo = Right - Mid;
+    int *LeftArray = new int [TempArrayOne];
+    int *RightArray = new int [TempArrayTwo];
+
+    
+    
+    
+
+    
+}
