@@ -58,6 +58,8 @@ public:
     int Find(T SearchValue, bool Linear = false);
     void ShrinkToFit();
 
+    void Swap(size_t FirstIndex, size_t SecondIndex);
+
     // Thomas
     // LinearSearch
     static T LinearSearch(DynamicArray<T>& arr, T Key);
@@ -291,6 +293,19 @@ void DynamicArray<T>::ShrinkToFit()
     Capacity_ /= GrowthFactor_;
 
     ReallocateData();
+}
+
+/**
+ * \brief Swaps elements at given indices.
+ * \param FirstIndex First index to swap.
+ * \param SecondIndex Second index to swap.
+ */
+template <typename T>
+void DynamicArray<T>::Swap(size_t FirstIndex, size_t SecondIndex)
+{
+    auto Temp = Data_[FirstIndex];
+    Data_[FirstIndex] = Data_[SecondIndex];
+    Data_[SecondIndex] = Temp;
 }
 
 
