@@ -60,7 +60,7 @@ int main()
     //selectionSort(Array);
 
     BubbleSort(Array);
-    DynamicArray<int> Array = {3, 3, 5, 1, 2, 17, 5, 3};
+
     cout << Array << endl;
     Sorters::HeapSort<int>(Array);
     cout << Array << endl;
