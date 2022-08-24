@@ -33,8 +33,20 @@ public:
     ~DynamicArray();
 
     // getters:
+    /**
+     * \return Number of elements in array.
+     */
     size_t GetSize() const { return Size_; }
+    
+    /**
+     * \return Number of elements there is allocated space for.
+     */
     size_t GetCapacity() const { return Capacity_; }
+
+    /**
+     * \return Pointer to first element in array.
+     */
+    T* GetBegin() { return Data_; }
 
     // public array methods:
     void Append(T NewValue);
@@ -45,7 +57,7 @@ public:
     T RemoveLastElement();
     int Find(T SearchValue, bool Linear = false);
     void ShrinkToFit();
-    
+
     // Thomas
     // LinearSearch
     static T LinearSearch(DynamicArray<T>& arr, T Key);
@@ -119,9 +131,9 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T>& OtherArray)
 {
     Capacity_ = OtherArray.Capacity_;
     Size_ = OtherArray.Size_;
-    
+
     Data_ = new T[Capacity_];
-    memcpy(Data_, OtherArray.Data_, Size_*(sizeof(Data_[0])));
+    memcpy(Data_, OtherArray.Data_, Size_ * (sizeof(Data_[0])));
 }
 
 template <typename T>
@@ -149,14 +161,14 @@ void DynamicArray<T>::Append(T NewValue)
  * \param NewValue Element to insert.
  */
 template <typename T>
-void DynamicArray<T>::Insert(size_t Index,T NewValue)
+void DynamicArray<T>::Insert(size_t Index, T NewValue)
 {
     if (Index < 0 || Index > Size_) throw std::runtime_error("Index out of range");
     if (Index == Size_) Append(NewValue);
     if (++Size_ >= Capacity_) GrowAndReallocate(); // reallocate if no space for new element.
 
     // moving existing elements to make space for new element, and then inserting:
-    memmove(Data_+Index+1, Data_+Index, (Size_ - Index - 1)*sizeof(Data_[0]));
+    memmove(Data_ + Index + 1, Data_ + Index, (Size_ - Index - 1) * sizeof(Data_[0]));
     Data_[Index] = NewValue;
 }
 
@@ -198,12 +210,12 @@ template <typename T>
 T DynamicArray<T>::Remove(size_t Index)
 {
     if (Index < 0 || Index >= Size_) throw std::runtime_error("Index out of range");
-    
-    auto RemovedElement = Data_[Index];  // retrieve value for return.
+
+    auto RemovedElement = Data_[Index]; // retrieve value for return.
     // using memmove to copy data. because source and destination overlaps:
-    memmove(Data_+Index, Data_+Index+1, (Size_-Index-1)*sizeof(Data_[0]));
-    
-    if (--Size_ < Capacity_/2) ShrinkToFit();
+    memmove(Data_ + Index, Data_ + Index + 1, (Size_ - Index - 1) * sizeof(Data_[0]));
+
+    if (--Size_ < Capacity_ / 2) ShrinkToFit();
     return RemovedElement;
 }
 
@@ -214,7 +226,7 @@ T DynamicArray<T>::Remove(size_t Index)
 template <typename T>
 T DynamicArray<T>::RemoveLastElement()
 {
-    return Remove(Size_-1);
+    return Remove(Size_ - 1);
 }
 
 /**
@@ -229,8 +241,6 @@ int DynamicArray<T>::Find(T SearchValue, bool Linear)
     if (Linear) return LinearSearch(SearchValue);
     return BinarySearch(SearchValue);
 }
-
-
 
 
 /**
@@ -303,7 +313,6 @@ T DynamicArray<T>::LinearSearch(DynamicArray<T>& arr, T Key)
 template <typename T>
 int DynamicArray<T>::LinearSearch(T Key)
 {
-    
     for (int i = 0; i < Size_; i++)
     {
         //check if current element matches the key
@@ -375,5 +384,3 @@ int DynamicArray<T>::BinarySearch(T key)
 
     return -1;
 }
-
-
