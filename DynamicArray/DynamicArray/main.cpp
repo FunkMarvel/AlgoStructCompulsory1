@@ -14,30 +14,31 @@ void selectionSort(DynamicArray<int> &arr);
 void BubbleSort(DynamicArray<int> arr);
 bool CompareBubbleSort(int a, int b);
 
-void MegeSort(DynamicArray<int> &arr);
+void Merge(DynamicArray<int> &arr,int const Left,int const Right,int const Mid);
+void MergeSort(DynamicArray<int>&arr, int const Left, int const Right);
 
 
 
 
 int main()
 {
-    DynamicArray<int> Array = {3, 2, 1,7,9,19,55};
+    DynamicArray<int> Array = {12, 11, 13,5,6,7};
 
-    std::cout << "Size: " << Array.GetSize() << std::endl;
-    std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-
-    Array.Append(11);
-    std::cout << "Size: " << Array.GetSize() << std::endl;
-    std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-
-    Array.Append(12);
-    std::cout << "Size: " << Array.GetSize() << std::endl;
-    std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-
-    std::cout << Array << std::endl;
-    std::cout << Array[1] << std::endl;
-     std::cout << Array.RemoveLastElement() << std::endl;
-     //std::cout << Array.RemoveLastElement() << std::endl;
+    // std::cout << "Size: " << Array.GetSize() << std::endl;
+    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
+    //
+    // Array.Append(11);
+    // std::cout << "Size: " << Array.GetSize() << std::endl;
+    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
+    //
+    // Array.Append(12);
+    // std::cout << "Size: " << Array.GetSize() << std::endl;
+    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
+    //
+    // std::cout << Array << std::endl;
+    // std::cout << Array[1] << std::endl;
+    //  std::cout << Array.RemoveLastElement() << std::endl;
+    //  std::cout << Array.RemoveLastElement() << std::endl;
      //std::cout << Array.RemoveLastElement() << std::endl;
     std::cout << Array<< std::endl;
     std::cout << "Size: " << Array.GetSize() << std::endl;
@@ -56,7 +57,10 @@ int main()
     //BinarySort(Array); //Function Version
 
     //selectionSort(Array);
-    BubbleSort(Array);
+    //BubbleSort(Array);
+    cout << Array << endl;
+    MergeSort(Array,0,Array.GetSize()-1);
+    cout << Array;
     
     return 0;
 }
@@ -166,22 +170,66 @@ void BubbleSort(DynamicArray<int> arr)
     cout << endl;
     cout <<"How many Swaps arr needed :" << TimeSwapped << endl;
 }
-
-void MegeSort(DynamicArray<int>& arr)
+void MergeSort(DynamicArray<int> &arr, int const Left,int const Right)
 {
-    int n = arr.GetSize();
-    int Left = 0;
-    int Right = n - 1;
+    if (Left >= Right)
+    {
+        return;
+    }
     int Mid = (Left + Right) / 2;
+
+    MergeSort(arr,Left,Mid);
+    MergeSort(arr,Mid+1,Right);
+    Merge(arr,Left,Right,Mid);
+    
+}
+void Merge(DynamicArray<int> &arr,int const Left,int const Right,int const Mid)
+{
+    
 
     int TempArrayOne = Mid - Left + 1;
     int TempArrayTwo = Right - Mid;
     int *LeftArray = new int [TempArrayOne];
     int *RightArray = new int [TempArrayTwo];
 
+    auto ArrPtr = arr.GetBegin();
+    memcpy(LeftArray, ArrPtr, TempArrayOne*sizeof(LeftArray[0]));
+    memcpy(RightArray,ArrPtr+Mid,TempArrayTwo*sizeof(RightArray[0]));
     
+
+    int IndexOfTempArrayOne = 0;
+    int IndexOfTempArrayTwo = 0;
+    int indexOfMergedArray = Left;
+
+
+    while (IndexOfTempArrayOne < TempArrayOne && IndexOfTempArrayTwo < TempArrayTwo)
+        if (LeftArray[IndexOfTempArrayOne] <= RightArray[IndexOfTempArrayTwo])
+        {
+            arr[indexOfMergedArray] = LeftArray[IndexOfTempArrayOne];
+            IndexOfTempArrayOne++;
+        }
+        else
+        {
+            arr[indexOfMergedArray] = RightArray[IndexOfTempArrayTwo];
+            IndexOfTempArrayTwo++;
+        }
+    indexOfMergedArray++;
+
+    while (IndexOfTempArrayOne < TempArrayOne)
+    {
+        arr[indexOfMergedArray] = LeftArray[IndexOfTempArrayOne];
+    IndexOfTempArrayOne++;
+    indexOfMergedArray++;
+    }
+    while (IndexOfTempArrayTwo < TempArrayTwo)
+    {
+        arr[indexOfMergedArray] = RightArray[IndexOfTempArrayTwo];
+        IndexOfTempArrayTwo++;
+        indexOfMergedArray++; 
+    }
     
-    
+    delete[] LeftArray;
+    delete[] RightArray;
 
     
 }
