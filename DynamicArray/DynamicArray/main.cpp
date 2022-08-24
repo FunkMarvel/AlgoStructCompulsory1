@@ -28,10 +28,11 @@ int main()
     std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
 
     std::cout << Array << std::endl;
-    std::cout << Array[1] << std::endl;
-    std::cout << Array.RemoveLastElement() << std::endl;
-    std::cout << Array.RemoveLastElement() << std::endl;
-    std::cout << Array.RemoveLastElement() << std::endl;
+    // std::cout << Array[1] << std::endl;
+    // std::cout << Array.RemoveLastElement() << std::endl;
+    // std::cout << Array.RemoveLastElement() << std::endl;
+    // std::cout << Array.RemoveLastElement() << std::endl;
+    Array.Insert(2, -3);
     std::cout << Array<< std::endl;
     std::cout << "Size: " << Array.GetSize() << std::endl;
     std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
