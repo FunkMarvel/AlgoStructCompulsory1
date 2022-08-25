@@ -25,55 +25,28 @@ int ArrayPartitioning(DynamicArray<int> &Array,int Start,int End);
 
 int main()
 {
-    DynamicArray<int> Array = {12,11,13,5,6,7};
+    DynamicArray<int> Array = {14,6,16,3,13,20,18,1,10,5,10,3,17,2,12,4,19,7,15,8,7,11};
+    DynamicArray<int> TestArray = Array;
 
-    // std::cout << "Size: " << Array.GetSize() << std::endl;
-    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-    //
-    // Array.Append(11);
-    // std::cout << "Size: " << Array.GetSize() << std::endl;
-    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-    //
-    // Array.Append(12);
-    // std::cout << "Size: " << Array.GetSize() << std::endl;
-    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-    //
-    // std::cout << Array << std::endl;
-    // std::cout << Array[1] << std::endl;
-    //  std::cout << Array.RemoveLastElement() << std::endl;
-    //  std::cout << Array.RemoveLastElement() << std::endl;
-     //std::cout << Array.RemoveLastElement() << std::endl;
-    std::cout << Array<< std::endl;
-    std::cout << "Size: " << Array.GetSize() << std::endl;
-    std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-
-    //Test
-    //cout << DynamicArray<int>::BinarySearch(Array, 4);
-    //cout << Array.BinarySearch(5);
-    // BinarySort(Array);
-    //cout << DynamicArray<int>::LinearSearch(Array,5); //Static Version
-    //cout << Array.LinearSearch(5); //Instance Version
-    //LinearSort(Array); //Function Version
+    cout << TestArray << endl;
+    Sorters::SelectionSort(TestArray);
+    cout << TestArray << endl;
+    TestArray = Array;
     
-    //cout << DynamicArray<int>::BinarySearch(Array, 5); //Static Version
-    //cout << Array.BinarySearch(5); //Instance Version
-    //BinarySort(Array); //Function Version
+    //cout << "num swaps: " << Sorters::BubbleSort(TestArray);
 
-    //selectionSort(Array);
-    //BubbleSort(Array);
+    cout << TestArray << endl;
+    Sorters::MergeSort(TestArray);
+    cout << TestArray << endl;
+    TestArray = Array;
     
-    // cout << Array << endl;
-    // Sorters::HeapSort<int>(Array);
-    // cout << Array << endl;
 
-    //BubbleSort(Array);
-    // cout << Array << endl;
-    // MergeSort(Array);
-    // cout << Array << endl;
-
-    cout << Array << endl;
-    QuickSort(Array,0,Array.GetSize()-1);
-    cout << Array << endl;
+    // QuickSort(Array,0,Array.GetSize()-1);
+    cout << TestArray << endl;
+    Sorters::HeapSort(TestArray);
+    cout << TestArray << endl;
+    TestArray = Array;
+   
     return 0;
 }
 /**
