@@ -18,8 +18,8 @@ bool CompareBubbleSort(int a, int b);
 void Merge(DynamicArray<int> &arr,DynamicArray<int> &LeftArray, DynamicArray<int> &RightArray);
 void MergeSort(DynamicArray<int>&arr);
 
-void QuickSort(DynamicArray<int> &arr,int Start,int End);
-int ArraySplit(DynamicArray<int> &arr,int Start,int End);
+void QuickSort(DynamicArray<int> &Array,int Start,int End);
+int ArrayPartitioning(DynamicArray<int> &Array,int Start,int End);
 
 
 
@@ -262,38 +262,36 @@ void Merge(DynamicArray<int> &arr,DynamicArray<int> &LeftArray, DynamicArray<int
     }
     
 }
-void QuickSort(DynamicArray<int> &arr,int Start,int End)
+void QuickSort(DynamicArray<int> &Array,int Start,int End)
 {
-    
-
     if (End <= Start)
     {
         return;
     }
 
-    int FocusPivot = ArraySplit(arr,Start,End);
-    QuickSort(arr,Start,FocusPivot-1);
-    QuickSort(arr,FocusPivot + 1,End);
+    auto FocusPivot = ArrayPartitioning(Array,Start,End);
+    QuickSort(Array,Start,FocusPivot-1);
+    QuickSort(Array,FocusPivot + 1,End);
 }
-int ArraySplit(DynamicArray<int> &arr,int Start,int End)
+int ArrayPartitioning(DynamicArray<int> &Array,int Start,int End)
 {
-    int FocusPivot = arr[End];
-    int i = Start - 1;
+    auto FocusPivot = Array[End];
+    auto i = Start - 1;
 
     for (int j=Start;j<=End;j++)
     {
-        if (arr[j] < FocusPivot)
+        if (Array[j] < FocusPivot)
         {
             i++;
-            int tempElm = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tempElm;
+            auto TempElem = Array[i];
+           Array.Swap(i,j); 
+            Array[j] = TempElem;
         }
     }
     i++;
-    int tempElm = arr[i];
-    arr[i] = arr[End];
-    arr[End] = tempElm;
+    auto tempElm = Array[i];
+    Array.Swap(i,End);
+    Array[End] = tempElm;
     
    return i;
 }
