@@ -68,12 +68,9 @@ int main()
     cout << Array << endl;
     MergeSort(Array);
     cout << Array << endl;
-
     
     return 0;
 }
-
-
 /**
  * \brief Sorting array with BinarySort
  * \param Arr Array to be sorted
@@ -186,8 +183,6 @@ void MergeSort(DynamicArray<int>&arr)
     {
         return;
     }
-   
-    
     int Mid = Length / 2; 
     
     DynamicArray<int> LeftArr(Mid);
@@ -198,18 +193,27 @@ void MergeSort(DynamicArray<int>&arr)
     int IndexLeftArr = 0; 
     int IndexRightArr = 0;
 
-   for (; IndexLeftArr < Length; IndexLeftArr++)
-   {
-       if (IndexLeftArr < Mid)
-       {
-           LeftArr[IndexLeftArr] = arr[IndexLeftArr];
-       }
-       else
-       {
-           RightArr[IndexRightArr] = arr[Mid +IndexRightArr];
-           IndexRightArr++;
-       }
-   }
+
+    ////Memcpy ver of splitting up Array(2 different memcpy,No need for if statement.)
+    auto ArrPtr = arr.GetBegin();
+    memcpy(LeftArr.GetBegin(),arr.GetBegin(), LeftArr.GetSize()*sizeof(LeftArr[0]));
+    memcpy(RightArr.GetBegin(),arr.GetBegin() + Mid, RightArr.GetSize()*sizeof(RightArr[0]));
+    
+
+   ////   For loop ver of splitting up the Array(One for loop with if statement)
+   //  for (; IndexLeftArr < Length; IndexLeftArr++)
+   // {
+   //     if (IndexLeftArr < Mid)
+   //     {
+   //         LeftArr[IndexLeftArr] = arr[IndexLeftArr];
+   //     }
+   //     else
+   //     {
+   //         RightArr[IndexRightArr] = arr[Mid +IndexRightArr];
+   //         IndexRightArr++;
+   //     }
+   // }
+    
     MergeSort(LeftArr);
     MergeSort(RightArr);
     Merge(arr,LeftArr,RightArr);
