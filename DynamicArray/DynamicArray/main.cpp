@@ -15,8 +15,8 @@ void selectionSort(DynamicArray<int> &arr);
 void BubbleSort(DynamicArray<int> arr);
 bool CompareBubbleSort(int a, int b);
 
-void Merge(DynamicArray<int> &arr,int const Left,int const Right,int const Mid);
-void MergeSort(DynamicArray<int>&arr, int const Left, int const Right);
+void Merge(DynamicArray<int> &arr,DynamicArray<int> LeftArray, DynamicArray<int> RightArray);
+void MergeSort(DynamicArray<int>&arr);
 
 
 
@@ -58,16 +58,15 @@ int main()
     //BinarySort(Array); //Function Version
 
     //selectionSort(Array);
-
-    BubbleSort(Array);
-
-    cout << Array << endl;
-    Sorters::HeapSort<int>(Array);
-    cout << Array << endl;
+    //BubbleSort(Array);
+    
+    // cout << Array << endl;
+    // Sorters::HeapSort<int>(Array);
+    // cout << Array << endl;
 
     //BubbleSort(Array);
     cout << Array << endl;
-    MergeSort(Array,0,Array.GetSize()-1);
+    MergeSort(Array);
     cout << Array;
 
     
@@ -179,66 +178,71 @@ void BubbleSort(DynamicArray<int> arr)
     cout << endl;
     cout <<"How many Swaps arr needed :" << TimeSwapped << endl;
 }
-void MergeSort(DynamicArray<int> &arr, int const Left,int const Right)
+void MergeSort(DynamicArray<int>&arr)
 {
-    if (Left >= Right)
+    int Length = arr.GetSize();
+    if (Length <= 1)
     {
         return;
     }
-    int Mid = (Left + Right) / 2;
+    int Mid = Length / 2;
+    DynamicArray<int> LeftArr(Mid);
+    DynamicArray<int> RightArr(Length - Mid);
 
-    MergeSort(arr,Left,Mid);
-    MergeSort(arr,Mid+1,Right);
-    Merge(arr,Left,Right,Mid);
+    int IndexLeftArr = 0; 
+    int IndexRightArr = 0;
+
+   for (; IndexLeftArr < Length; IndexLeftArr++)
+   {
+       if (IndexLeftArr < Mid)
+       {
+           LeftArr[IndexLeftArr] = arr[IndexLeftArr];
+       }
+       else
+       {
+           RightArr[IndexRightArr] = arr[IndexRightArr];
+           IndexRightArr++;
+       }
+   }
+    MergeSort(LeftArr);
+    MergeSort(RightArr);
+    Merge(arr,LeftArr,RightArr);
     
 }
-void Merge(DynamicArray<int> &arr,int const Left,int const Right,int const Mid)
+void Merge(DynamicArray<int> &arr,DynamicArray<int> LeftArray, DynamicArray<int> RightArray)
 {
-    
+    int LeftArrSize = arr.GetSize() / 2 ;
+    int RightArrSize = arr.GetSize() - LeftArrSize;
 
-    int TempArrayOne = Mid - Left + 1;
-    int TempArrayTwo = Right - Mid;
-    int *LeftArray = new int [TempArrayOne];
-    int *RightArray = new int [TempArrayTwo];
+    int i = 0, LS = 0, RS=0; //indices for loops LS = LeftSide / Rs = RightSide
 
-    auto ArrPtr = arr.GetBegin();
-    memcpy(LeftArray, ArrPtr, TempArrayOne*sizeof(LeftArray[0]));
-    memcpy(RightArray,ArrPtr+Mid,TempArrayTwo*sizeof(RightArray[0]));
-    
+    //Merging conditions
 
-    int IndexOfTempArrayOne = 0;
-    int IndexOfTempArrayTwo = 0;
-    int indexOfMergedArray = Left;
-
-
-    while (IndexOfTempArrayOne < TempArrayOne && IndexOfTempArrayTwo < TempArrayTwo)
-        if (LeftArray[IndexOfTempArrayOne] <= RightArray[IndexOfTempArrayTwo])
+    while (LS < LeftArrSize && RS < RightArrSize)
+    {
+        if (LeftArray[LS] < RightArray[RS])
         {
-            arr[indexOfMergedArray] = LeftArray[IndexOfTempArrayOne];
-            IndexOfTempArrayOne++;
+            arr[i] = LeftArray[LS];
+            i++;
+            LS++;
         }
         else
         {
-            arr[indexOfMergedArray] = RightArray[IndexOfTempArrayTwo];
-            IndexOfTempArrayTwo++;
+            arr[i] = RightArray[RS];
+            i++;
+            RS++;
         }
-    indexOfMergedArray++;
-
-    while (IndexOfTempArrayOne < TempArrayOne)
-    {
-        arr[indexOfMergedArray] = LeftArray[IndexOfTempArrayOne];
-    IndexOfTempArrayOne++;
-    indexOfMergedArray++;
     }
-    while (IndexOfTempArrayTwo < TempArrayTwo)
+    while (LS < LeftArrSize)
     {
-        arr[indexOfMergedArray] = RightArray[IndexOfTempArrayTwo];
-        IndexOfTempArrayTwo++;
-        indexOfMergedArray++; 
+        arr[i] = LeftArray[LS];
+        i++;
+        LS++;
     }
-    
-    delete[] LeftArray;
-    delete[] RightArray;
-
-    
+    while (RS < RightArrSize)
+    {
+        arr[i] = RightArray[RS];
+        i++;
+        RS++;
+    }
 }
