@@ -19,7 +19,7 @@ namespace Sorters
     void MergeSort(DynamicArray<T>& Array);
 
     template <typename T>
-    void QuickSort(DynamicArray<T>& Array, int Start, int End);
+    void QuickSort(DynamicArray<T>& Array, int Start = NULL, int End = NULL);
 }
 
 /**
@@ -171,6 +171,14 @@ void Sorters::MergeSort(DynamicArray<T>& Array)
 template <typename T>
 void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
 {
+    if (Start == NULL)
+    {
+        Start = 0;
+    }
+    if (End == NULL)
+    {
+        End = Array.GetSize() - 1;
+    }
     if (End <= Start)
     {
         return;
