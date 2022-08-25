@@ -19,7 +19,7 @@ namespace Sorters
     void MergeSort(DynamicArray<T>& Array);
 
     template <typename T>
-    void QuickSort(DynamicArray<T>& Array, int Start = NULL, int End = NULL);
+    void QuickSort(DynamicArray<T>& Array, int Start = -10000, int End = -10000);
 }
 
 /**
@@ -171,13 +171,13 @@ void Sorters::MergeSort(DynamicArray<T>& Array)
 template <typename T>
 void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
 {
-    if (Start == NULL)
+    if (Start == -10000)
     {
         Start = 0;
     }
-    if (End == NULL)
+    if (End == -10000)
     {
-        End = static_cast<int>(Array.GetSize());
+        End = static_cast<int>(Array.GetSize())-1;
     }
     if (End <= Start)
     {
@@ -285,7 +285,7 @@ template <typename T>
 int SortersHelpers::ArraySplit(DynamicArray<T>& Array, int Start, int End)
 {
     auto FocusPivot = Array[End];
-    int i = Start - 1;
+    auto i = Start - 1;
 
     for (int j = Start; j <= End; j++)
     {
@@ -293,14 +293,14 @@ int SortersHelpers::ArraySplit(DynamicArray<T>& Array, int Start, int End)
         {
             i++;
             auto TempElem = Array[i];
-            Array[i] = Array[j];
+            Array.Swap(i, j);
             Array[j] = TempElem;
         }
     }
     i++;
-    auto TempElm = Array[i];
-    Array[i] = Array[End];
-    Array[End] = TempElm;
+    auto tempElm = Array[i];
+    Array.Swap(i, End);
+    Array[End] = tempElm;
 
     return i;
 }
