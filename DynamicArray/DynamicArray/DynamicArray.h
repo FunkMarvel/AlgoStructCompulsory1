@@ -268,7 +268,7 @@ template <typename T>
 DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& OtherArray)
 {
     // if assigned to self:
-    if (this == OtherArray) return *this;
+    if (this == &OtherArray) return *this;
     
     // delete already allocated data:
     delete[] Data_;

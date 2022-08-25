@@ -56,7 +56,7 @@ void Sorters::HeapSort(DynamicArray<T>& Array)
 
     // Create Temp array for storing sorted values:
     DynamicArray<T> TempArray{};
-    auto NumElements = Array.GetSize(); // saving amount of elements to sort.
+    int NumElements = static_cast<int>(Array.GetSize()); // saving amount of elements to sort.
     TempArray.Expand(NumElements); // reserving necessary amount of memory.
 
     for (int i = 0; i < NumElements - 1; ++i) // looping until there is only one element left.
@@ -177,7 +177,7 @@ void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
     }
     if (End == NULL)
     {
-        End = Array.GetSize() - 1;
+        End = static_cast<int>(Array.GetSize());
     }
     if (End <= Start)
     {
