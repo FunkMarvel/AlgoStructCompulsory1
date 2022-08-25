@@ -18,62 +18,35 @@ bool CompareBubbleSort(int a, int b);
 void Merge(DynamicArray<int> &arr,DynamicArray<int> &LeftArray, DynamicArray<int> &RightArray);
 void MergeSort(DynamicArray<int>&arr);
 
-void QuickSort(DynamicArray<int> &arr,int Start,int End);
-int ArraySplit(DynamicArray<int> &arr,int Start,int End);
+void QuickSort(DynamicArray<int> &Array,int Start,int End);
+int ArrayPartitioning(DynamicArray<int> &Array,int Start,int End);
 
 
 
 int main()
 {
-    DynamicArray<int> Array = {12,11,13,5,6,7};
+    DynamicArray<int> Array = {14,6,16,3,13,20,18,1,10,5,10,3,17,2,12,4,19,7,15,8,7,11};
+    DynamicArray<int> TestArray = Array;
 
-    // std::cout << "Size: " << Array.GetSize() << std::endl;
-    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-    //
-    // Array.Append(11);
-    // std::cout << "Size: " << Array.GetSize() << std::endl;
-    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-    //
-    // Array.Append(12);
-    // std::cout << "Size: " << Array.GetSize() << std::endl;
-    // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-    //
-    // std::cout << Array << std::endl;
-    // std::cout << Array[1] << std::endl;
-    //  std::cout << Array.RemoveLastElement() << std::endl;
-    //  std::cout << Array.RemoveLastElement() << std::endl;
-     //std::cout << Array.RemoveLastElement() << std::endl;
-    std::cout << Array<< std::endl;
-    std::cout << "Size: " << Array.GetSize() << std::endl;
-    std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
-
-    //Test
-    //cout << DynamicArray<int>::BinarySearch(Array, 4);
-    //cout << Array.BinarySearch(5);
-    // BinarySort(Array);
-    //cout << DynamicArray<int>::LinearSearch(Array,5); //Static Version
-    //cout << Array.LinearSearch(5); //Instance Version
-    //LinearSort(Array); //Function Version
+    cout << TestArray << endl;
+    Sorters::SelectionSort(TestArray);
+    cout << TestArray << endl;
+    TestArray = Array;
     
-    //cout << DynamicArray<int>::BinarySearch(Array, 5); //Static Version
-    //cout << Array.BinarySearch(5); //Instance Version
-    //BinarySort(Array); //Function Version
+    //cout << "num swaps: " << Sorters::BubbleSort(TestArray);
 
-    //selectionSort(Array);
-    //BubbleSort(Array);
+    cout << TestArray << endl;
+    Sorters::MergeSort(TestArray);
+    cout << TestArray << endl;
+    TestArray = Array;
     
-    // cout << Array << endl;
-    // Sorters::HeapSort<int>(Array);
-    // cout << Array << endl;
 
-    //BubbleSort(Array);
-    // cout << Array << endl;
-    // MergeSort(Array);
-    // cout << Array << endl;
-
-    cout << Array << endl;
-    QuickSort(Array,0,Array.GetSize()-1);
-    cout << Array << endl;
+    // QuickSort(Array,0,Array.GetSize()-1);
+    cout << TestArray << endl;
+    Sorters::HeapSort(TestArray);
+    cout << TestArray << endl;
+    TestArray = Array;
+   
     return 0;
 }
 /**
@@ -262,38 +235,36 @@ void Merge(DynamicArray<int> &arr,DynamicArray<int> &LeftArray, DynamicArray<int
     }
     
 }
-void QuickSort(DynamicArray<int> &arr,int Start,int End)
+void QuickSort(DynamicArray<int> &Array,int Start,int End)
 {
-    
-
     if (End <= Start)
     {
         return;
     }
 
-    int FocusPivot = ArraySplit(arr,Start,End);
-    QuickSort(arr,Start,FocusPivot-1);
-    QuickSort(arr,FocusPivot + 1,End);
+    auto FocusPivot = ArrayPartitioning(Array,Start,End);
+    QuickSort(Array,Start,FocusPivot-1);
+    QuickSort(Array,FocusPivot + 1,End);
 }
-int ArraySplit(DynamicArray<int> &arr,int Start,int End)
+int ArrayPartitioning(DynamicArray<int> &Array,int Start,int End)
 {
-    int FocusPivot = arr[End];
-    int i = Start - 1;
+    auto FocusPivot = Array[End];
+    auto i = Start - 1;
 
     for (int j=Start;j<=End;j++)
     {
-        if (arr[j] < FocusPivot)
+        if (Array[j] < FocusPivot)
         {
             i++;
-            int tempElm = arr[i];
-            arr[i] = arr[j];
-            arr[j] = tempElm;
+            auto TempElem = Array[i];
+           Array.Swap(i,j); 
+            Array[j] = TempElem;
         }
     }
     i++;
-    int tempElm = arr[i];
-    arr[i] = arr[End];
-    arr[End] = tempElm;
+    auto tempElm = Array[i];
+    Array.Swap(i,End);
+    Array[End] = tempElm;
     
    return i;
 }
