@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include <iostream>
 #include "DynamicArray.h"
 #include "Sorters.h"

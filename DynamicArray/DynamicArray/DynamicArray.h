@@ -70,6 +70,7 @@ public:
 
     // opperatpor overloads:
     T& operator[](size_t Index);
+    DynamicArray<T>& operator=(const DynamicArray<T>& OtherArray);
 
     /**
      * \brief Add elements of array to out-stream.
@@ -255,6 +256,26 @@ T& DynamicArray<T>::operator[](size_t Index)
 {
     if (Index < 0 || Index >= Size_) throw std::runtime_error("Index out of range");
     return Data_[Index];
+}
+
+/**
+ * \brief Assign value to array by copy.
+ * \param OtherArray Array to copy.
+ * \return Returns assigned array.
+ */
+template <typename T>
+DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& OtherArray)
+{
+    // delete already allocated data.
+    if (Data_) delete[] Data_;
+
+    // copy properties and data from given array:
+    Capacity_ = OtherArray.Capacity_;
+    Size_ = OtherArray.Size_;
+    Data_ = new T[Capacity_];
+    memcpy(Data_, OtherArray.Data_, Size_*sizeof(Data_[0]));
+    
+    return *this;
 }
 
 
