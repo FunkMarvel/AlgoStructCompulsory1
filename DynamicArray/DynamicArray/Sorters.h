@@ -17,6 +17,9 @@ namespace Sorters
 
     template <typename T>
     void MergeSort(DynamicArray<T>& Array);
+
+    template <typename T>
+    void QuickSort(DynamicArray<T>& Array, int Start, int End);
 }
 
 /**
@@ -35,6 +38,9 @@ namespace SortersHelpers
 
     template <typename T>
     void Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, DynamicArray<T>& RightArray);
+
+    template <typename T>
+    int ArraySplit(DynamicArray<T>& Array, int Start, int End);
 }
 
 /**
@@ -135,12 +141,12 @@ void Sorters::MergeSort(DynamicArray<T>& Array)
 
     DynamicArray<int> LeftArr(Mid);
     DynamicArray<int> RightArr(Length - Mid);
-    
+
     ////Memcpy ver of splitting up Array(2 different memcpy,No need for if statement.):
     auto ArrPtr = Array.GetBegin();
     memcpy(LeftArr.GetBegin(), Array.GetBegin(), LeftArr.GetSize() * sizeof(LeftArr[0]));
     memcpy(RightArr.GetBegin(), Array.GetBegin() + Mid, RightArr.GetSize() * sizeof(RightArr[0]));
-    
+
     //   For loop ver of splitting up the Array(One for loop with if statement):
     // int IndexLeftArr = 0;
     // int IndexRightArr = 0;
@@ -160,6 +166,19 @@ void Sorters::MergeSort(DynamicArray<T>& Array)
     MergeSort(LeftArr);
     MergeSort(RightArr);
     SortersHelpers::Merge(Array, LeftArr, RightArr);
+}
+
+template <typename T>
+void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
+{
+    if (End <= Start)
+    {
+        return;
+    }
+
+    int FocusPivot = SortersHelpers::ArraySplit(Array, Start, End);
+    QuickSort(Array, Start, FocusPivot - 1);
+    QuickSort(Array, FocusPivot + 1, End);
 }
 
 template <typename T>
@@ -252,4 +271,28 @@ void SortersHelpers::Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, D
         i++;
         RS++;
     }
+}
+
+template <typename T>
+int SortersHelpers::ArraySplit(DynamicArray<T>& Array, int Start, int End)
+{
+    auto FocusPivot = Array[End];
+    int i = Start - 1;
+
+    for (int j = Start; j <= End; j++)
+    {
+        if (Array[j] < FocusPivot)
+        {
+            i++;
+            auto TempElem = Array[i];
+            Array[i] = Array[j];
+            Array[j] = TempElem;
+        }
+    }
+    i++;
+    auto TempElm = Array[i];
+    Array[i] = Array[End];
+    Array[End] = TempElm;
+
+    return i;
 }
