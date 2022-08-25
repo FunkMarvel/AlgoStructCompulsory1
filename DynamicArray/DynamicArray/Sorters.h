@@ -14,9 +14,9 @@ namespace Sorters
 
     template <typename T>
     int BubbleSort(DynamicArray<T>& Array);
-    
+
     template <typename T>
-    void MergeSort(DynamicArray<T>&arr);
+    void MergeSort(DynamicArray<T>& Array);
 }
 
 /**
@@ -34,7 +34,7 @@ namespace SortersHelpers
     void Heapify(DynamicArray<T>& Array);
 
     template <typename T>
-    void Merge(DynamicArray<T> &arr,DynamicArray<T> &LeftArray, DynamicArray<T> &RightArray);
+    void Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, DynamicArray<T>& RightArray);
 }
 
 /**
@@ -123,8 +123,43 @@ int Sorters::BubbleSort(DynamicArray<T>& Array)
 }
 
 template <typename T>
-void Sorters::MergeSort(DynamicArray<T>& arr)
+void Sorters::MergeSort(DynamicArray<T>& Array)
 {
+    const int Length = static_cast<int>(Array.GetSize());
+
+    if (Length <= 1)
+    {
+        return;
+    }
+    int Mid = Length / 2;
+
+    DynamicArray<int> LeftArr(Mid);
+    DynamicArray<int> RightArr(Length - Mid);
+    
+    ////Memcpy ver of splitting up Array(2 different memcpy,No need for if statement.):
+    auto ArrPtr = Array.GetBegin();
+    memcpy(LeftArr.GetBegin(), Array.GetBegin(), LeftArr.GetSize() * sizeof(LeftArr[0]));
+    memcpy(RightArr.GetBegin(), Array.GetBegin() + Mid, RightArr.GetSize() * sizeof(RightArr[0]));
+    
+    //   For loop ver of splitting up the Array(One for loop with if statement):
+    // int IndexLeftArr = 0;
+    // int IndexRightArr = 0;
+    // for (; IndexLeftArr < Length; IndexLeftArr++)
+    // {
+    //     if (IndexLeftArr < Mid)
+    //     {
+    //         LeftArr[IndexLeftArr] = Array[IndexLeftArr];
+    //     }
+    //     else
+    //     {
+    //         RightArr[IndexRightArr] = Array[Mid + IndexRightArr];
+    //         IndexRightArr++;
+    //     }
+    // }
+
+    MergeSort(LeftArr);
+    MergeSort(RightArr);
+    SortersHelpers::Merge(Array, LeftArr, RightArr);
 }
 
 template <typename T>
@@ -172,7 +207,7 @@ void SortersHelpers::Heapify(DynamicArray<T>& Array)
 {
     // finds index of last non-leaf node in binary tree:
     const int LastNonLeaf = static_cast<const int>(Array.GetSize() / 2 - 1);
-    
+
     for (int i = LastNonLeaf; i >= 0; --i)
     {
         // performs sift-down on all non-leaf nodes backwards to root:
@@ -181,6 +216,40 @@ void SortersHelpers::Heapify(DynamicArray<T>& Array)
 }
 
 template <typename T>
-void SortersHelpers::Merge(DynamicArray<T>& arr, DynamicArray<T>& LeftArray, DynamicArray<T>& RightArray)
+void SortersHelpers::Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, DynamicArray<T>& RightArray)
 {
+    const int LeftArrSize = static_cast<int>(Array.GetSize() / 2);
+    const int RightArrSize = static_cast<int>(Array.GetSize()) - LeftArrSize;
+
+    int i = 0, LS = 0, RS = 0; //indices for loops LS = LeftSide / Rs = RightSide
+
+    //Merging conditions
+
+    while (LS < LeftArrSize && RS < RightArrSize)
+    {
+        if (LeftArray[LS] < RightArray[RS])
+        {
+            Array[i] = LeftArray[LS];
+            i++;
+            LS++;
+        }
+        else
+        {
+            Array[i] = RightArray[RS];
+            i++;
+            RS++;
+        }
+    }
+    while (LS < LeftArrSize)
+    {
+        Array[i] = LeftArray[LS];
+        i++;
+        LS++;
+    }
+    while (RS < RightArrSize)
+    {
+        Array[i] = RightArray[RS];
+        i++;
+        RS++;
+    }
 }
