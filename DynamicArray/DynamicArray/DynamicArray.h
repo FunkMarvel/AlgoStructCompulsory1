@@ -57,6 +57,7 @@ public:
     T RemoveLastElement();
     int Find(T SearchValue, bool Linear = false);
     void ShrinkToFit();
+    void Reverse();
 
     void Swap(size_t FirstIndex, size_t SecondIndex);
 
@@ -215,10 +216,10 @@ T DynamicArray<T>::Remove(size_t Index)
     if (Index < 0 || Index >= Size_) throw std::runtime_error("Index out of range");
 
     auto RemovedElement = Data_[Index]; // retrieve value for return.
-    // using memmove to copy data. because source and destination overlaps:
+    // using memmove to copy data, because source and destination overlaps:
     memmove(Data_ + Index, Data_ + Index + 1, (Size_ - Index - 1) * sizeof(Data_[0]));
 
-    if (--Size_ < Capacity_ / 2) ShrinkToFit();
+    if (--Size_ < Capacity_ / 2) ShrinkToFit();  // reduce amount of unused memory.
     return RemovedElement;
 }
 
@@ -312,8 +313,18 @@ void DynamicArray<T>::ShrinkToFit()
 {
     if (Capacity_ <= GrowthFactor_ * Size_) return;
     Capacity_ /= GrowthFactor_;
-
     ReallocateData();
+}
+
+/**
+ * \brief Reversing order of elements.
+ */
+template <typename T>
+void DynamicArray<T>::Reverse()
+{
+    if (Size_ <= 0) return;
+    for (size_t i = 0; i < Size_/2; ++i)
+        Swap(i, Size_-i-1);
 }
 
 /**
@@ -324,6 +335,7 @@ void DynamicArray<T>::ShrinkToFit()
 template <typename T>
 void DynamicArray<T>::Swap(size_t FirstIndex, size_t SecondIndex)
 {
+    if (FirstIndex == SecondIndex) return;
     auto Temp = Data_[FirstIndex];
     Data_[FirstIndex] = Data_[SecondIndex];
     Data_[SecondIndex] = Temp;
