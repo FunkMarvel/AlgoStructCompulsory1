@@ -63,10 +63,10 @@ public:
 
     // Thomas
     // LinearSearch
-    static T LinearSearch(DynamicArray<T>& arr, T Key);
+    static T LinearSearch(DynamicArray<T>& Array, T Key);
     int LinearSearch(T Key);
     // BinarySearch
-    static T BinarySearch(DynamicArray<T>& arr, T Key);
+    static T BinarySearch(DynamicArray<T>& Array, T Key);
     int BinarySearch(T key);
 
     // opperatpor overloads:
@@ -267,8 +267,11 @@ T& DynamicArray<T>::operator[](size_t Index)
 template <typename T>
 DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& OtherArray)
 {
-    // delete already allocated data.
-    if (Data_) delete[] Data_;
+    // if assigned to self:
+    if (this == OtherArray) return *this;
+    
+    // delete already allocated data:
+    delete[] Data_;
 
     // copy properties and data from given array:
     Capacity_ = OtherArray.Capacity_;
@@ -343,13 +346,13 @@ void DynamicArray<T>::Swap(size_t FirstIndex, size_t SecondIndex)
 
 
 template <typename T>
-T DynamicArray<T>::LinearSearch(DynamicArray<T>& arr, T Key)
+T DynamicArray<T>::LinearSearch(DynamicArray<T>& Array, T Key)
 {
-    int n = arr.GetSize();
+    const int n = static_cast<int>(Array.GetSize());
     for (int i = 0; i < n; i++)
     {
         //check if current element matches the key
-        if (arr[i] == Key)
+        if (Array[i] == Key)
         {
             return i;
         }
@@ -375,9 +378,9 @@ int DynamicArray<T>::LinearSearch(T Key)
 
 
 template <typename T>
-T DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, T Key)
+T DynamicArray<T>::BinarySearch(DynamicArray<T>& Array, T Key)
 {
-    int n = arr.GetSize();
+    const int n = static_cast<int>(Array.GetSize());
     int Start = 0;
     // N - 1 is the last element in an array
     int End = n - 1;
@@ -385,12 +388,12 @@ T DynamicArray<T>::BinarySearch(DynamicArray<T>& arr, T Key)
     while (Start <= End)
     {
         int mid = (Start + End) / 2;
-        if (arr[mid] == Key)
+        if (Array[mid] == Key)
         {
             return mid;
         }
         //take the end marker and put it on mid - 1
-        if (arr[mid] > Key)
+        if (Array[mid] > Key)
         {
             End = mid - 1;
         }
