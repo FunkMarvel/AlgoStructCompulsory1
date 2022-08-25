@@ -15,7 +15,7 @@ void selectionSort(DynamicArray<int> &arr);
 void BubbleSort(DynamicArray<int> arr);
 bool CompareBubbleSort(int a, int b);
 
-void Merge(DynamicArray<int> &arr,DynamicArray<int> LeftArray, DynamicArray<int> RightArray);
+void Merge(DynamicArray<int> &arr,DynamicArray<int> &LeftArray, DynamicArray<int> &RightArray);
 void MergeSort(DynamicArray<int>&arr);
 
 
@@ -23,7 +23,7 @@ void MergeSort(DynamicArray<int>&arr);
 
 int main()
 {
-    DynamicArray<int> Array = {12, 11, 13,5,6,7};
+    DynamicArray<int> Array = {12,11,13,5,6,7};
 
     // std::cout << "Size: " << Array.GetSize() << std::endl;
     // std::cout << "Capacity: " << Array.GetCapacity() << std::endl;
@@ -67,7 +67,7 @@ int main()
     //BubbleSort(Array);
     cout << Array << endl;
     MergeSort(Array);
-    cout << Array;
+    cout << Array << endl;
 
     
     return 0;
@@ -181,14 +181,20 @@ void BubbleSort(DynamicArray<int> arr)
 void MergeSort(DynamicArray<int>&arr)
 {
     int Length = arr.GetSize();
+    
     if (Length <= 1)
     {
         return;
     }
-    int Mid = Length / 2;
+   
+    
+    int Mid = Length / 2; 
+    
     DynamicArray<int> LeftArr(Mid);
     DynamicArray<int> RightArr(Length - Mid);
 
+   // cout << RightArr;
+    
     int IndexLeftArr = 0; 
     int IndexRightArr = 0;
 
@@ -200,7 +206,7 @@ void MergeSort(DynamicArray<int>&arr)
        }
        else
        {
-           RightArr[IndexRightArr] = arr[IndexRightArr];
+           RightArr[IndexRightArr] = arr[Mid +IndexRightArr];
            IndexRightArr++;
        }
    }
@@ -209,7 +215,7 @@ void MergeSort(DynamicArray<int>&arr)
     Merge(arr,LeftArr,RightArr);
     
 }
-void Merge(DynamicArray<int> &arr,DynamicArray<int> LeftArray, DynamicArray<int> RightArray)
+void Merge(DynamicArray<int> &arr,DynamicArray<int> &LeftArray, DynamicArray<int> &RightArray)
 {
     int LeftArrSize = arr.GetSize() / 2 ;
     int RightArrSize = arr.GetSize() - LeftArrSize;
@@ -245,4 +251,5 @@ void Merge(DynamicArray<int> &arr,DynamicArray<int> LeftArray, DynamicArray<int>
         i++;
         RS++;
     }
+    
 }
