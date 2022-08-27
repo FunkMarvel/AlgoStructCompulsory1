@@ -44,7 +44,7 @@ int main()
 
     // deleting:
     cout << "Deleting element at index '1'" << endl;
-    Array.Remove(1);
+    cout << "Removed element was '" << Array.Remove(1) << "'" << endl;
     cout << "current Array: " << Array << endl;
     cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
     cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
