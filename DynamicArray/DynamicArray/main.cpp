@@ -33,7 +33,7 @@ int main()
 
     cout << "Quick sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
-    Sorters::QuickSort(TestArray, 0, Array.GetSize() - 1);
+    Sorters::QuickSort(TestArray, 0, static_cast<int>(Array.GetSize() - 1));
     cout << "Sorted: " << TestArray << endl << endl;
     TestArray = Array;
 
@@ -52,7 +52,7 @@ int main()
  */
 void BinarySort(DynamicArray<int>& Arr)
 {
-    int n = Arr.GetSize();
+    int n = static_cast<int>(Arr.GetSize());
     int key;
     cin >> key;
 
