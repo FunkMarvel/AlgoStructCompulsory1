@@ -31,7 +31,7 @@ namespace SortersHelpers
     bool CompareBubbleSort(T a, T b);
 
     template <typename T>
-    void SiftDown(DynamicArray<T>& Array, size_t NodeToSift);
+    void SiftDown(DynamicArray<T>& Array, size_t NodeToSift, int NumElements);
 
     template <typename T>
     void Heapify(DynamicArray<T>& Array);
@@ -40,7 +40,7 @@ namespace SortersHelpers
     void Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, DynamicArray<T>& RightArray);
 
     template <typename T>
-    int ArraySplit(DynamicArray<T>& Array, int Start, int End);
+    int ArrayPartition(DynamicArray<T>& Array, int Start, int End);
 }
 
 /**
@@ -51,22 +51,20 @@ namespace SortersHelpers
 template <typename T>
 void Sorters::HeapSort(DynamicArray<T>& Array)
 {
-    // Organize Array into Min-Heap:
+    // Organize Array into max-heap:
     SortersHelpers::Heapify(Array);
-
-    // Create Temp array for storing sorted values:
-    DynamicArray<T> TempArray{};
+    
     int NumElements = static_cast<int>(Array.GetSize()); // saving amount of elements to sort.
-    TempArray.Expand(NumElements); // reserving necessary amount of memory.
 
-    for (int i = 0; i < NumElements - 1; ++i) // looping until there is only one element left.
+    for (int i = 0; i < static_cast<const int>(Array.GetSize())-1; ++i) // looping until there is only one element left.
     {
-        TempArray.Append(Array[0]); // adding smallest element to front of temp array.
-        Array[0] = Array.RemoveLastElement(); // shifting last heap element to be new root.
-        SortersHelpers::SiftDown(Array, 0); // sifting down root to restore heap property.
+        // swaps final leaf with root, putting the root in its sorted position at end of array:
+        Array.Swap(0, NumElements-1);
+
+        // sifting down new root to restore heap property:
+        SortersHelpers::SiftDown(Array, 0, --NumElements);
+        // by decrementing NumElements, the sorted elements are not sifted.
     }
-    TempArray.Append(Array.RemoveLastElement()); // moving final element.
-    Array = TempArray; // populating Array from temp array by copy assignment.
 }
 
 /**
@@ -184,7 +182,7 @@ void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
         return;
     }
 
-    int FocusPivot = SortersHelpers::ArraySplit(Array, Start, End);
+    int FocusPivot = SortersHelpers::ArrayPartition(Array, Start, End);
     QuickSort(Array, Start, FocusPivot - 1);
     QuickSort(Array, FocusPivot + 1, End);
 }
@@ -201,44 +199,46 @@ bool SortersHelpers::CompareBubbleSort(T a, T b)
  * \tparam T Data type of elements in array.
  * \param Array Array storing binary tree.
  * \param NodeToSift Index of node to start sifting at.
+ * \param NumElements Number of elements in Array to consider sifting.
  */
 template <typename T>
-void SortersHelpers::SiftDown(DynamicArray<T>& Array, size_t NodeToSift)
+void SortersHelpers::SiftDown(DynamicArray<T>& Array, size_t NodeToSift, int NumElements)
 {
-    size_t SmallestNode{NodeToSift}; // Index of node to start shifting at.
+    size_t LargestNode{NodeToSift}; // Index of node to start shifting at.
     size_t LeftChild{2 * NodeToSift + 1}; // Index of left child node.
     size_t RightChild{2 * NodeToSift + 2}; // Index of right child node.
 
     // set SmallestNode to be index of smallest child node:
-    if (RightChild < Array.GetSize() && Array[RightChild] < Array[SmallestNode])
-        SmallestNode = RightChild;
+    if (RightChild < NumElements && Array[RightChild] > Array[LargestNode])
+        LargestNode = RightChild;
 
-    if (LeftChild < Array.GetSize() && Array[LeftChild] < Array[SmallestNode])
-        SmallestNode = LeftChild;
+    if (LeftChild < NumElements && Array[LeftChild] > Array[LargestNode])
+        LargestNode = LeftChild;
 
-    if (SmallestNode != NodeToSift)
+    if (LargestNode != NodeToSift)
     {
         // swap smallest child with parent and performs sift-down on new child node:
-        Array.Swap(SmallestNode, NodeToSift);
-        SortersHelpers::SiftDown(Array, SmallestNode);
+        Array.Swap(LargestNode, NodeToSift);
+        SortersHelpers::SiftDown(Array, LargestNode, NumElements);
     }
 }
 
 /**
- * \brief Makes min-heap out of binary tree represented by given array.
+ * \brief Makes max-heap out of binary tree represented by given array.
  * \tparam T Data type of element in array.
- * \param Array Array to make into min-heap.
+ * \param Array Array to make into max-heap.
  */
 template <typename T>
 void SortersHelpers::Heapify(DynamicArray<T>& Array)
 {
     // finds index of last non-leaf node in binary tree:
-    const int LastNonLeaf = static_cast<const int>(Array.GetSize() / 2 - 1);
+    const int NumElements = static_cast<const int>(Array.GetSize());
+    const int LastNonLeaf = NumElements / 2 - 1;
 
     for (int i = LastNonLeaf; i >= 0; --i)
     {
         // performs sift-down on all non-leaf nodes backwards to root:
-        SortersHelpers::SiftDown(Array, i);
+        SortersHelpers::SiftDown(Array, i, NumElements);
     }
 }
 
@@ -282,7 +282,7 @@ void SortersHelpers::Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, D
 }
 
 template <typename T>
-int SortersHelpers::ArraySplit(DynamicArray<T>& Array, int Start, int End)
+int SortersHelpers::ArrayPartition(DynamicArray<T>& Array, int Start, int End)
 {
     auto FocusPivot = Array[End];
     auto i = Start - 1;
