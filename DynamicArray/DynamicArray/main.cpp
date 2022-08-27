@@ -15,7 +15,40 @@ double CalcStdDeviation(DynamicArray<double>& Timings, double MeanDuration);
 
 int main()
 {
-    DynamicArray<int> Array = {0};
+    DynamicArray<int> Array = {0};  // initialize array with list.
+    cout << "Testing array methods: " << endl;
+    cout << "Starting array: " << Array << endl;
+    cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
+    cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
+
+    // appending: 
+    cout << "Appending '11' to end of array: " << endl;
+    Array.Append(11);
+    cout << "current Array: " << Array << endl;
+    cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
+    cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
+
+    // inserting:
+    cout << "Inserting '-11' at index '0': " << endl;
+    Array.Insert(0, -11);
+    cout << "current Array: " << Array << endl;
+    cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
+    cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
+
+    // expanding:
+    cout << "Expanding capacity of array to 32 elements: " << endl;
+    Array.Expand(32);
+    cout << "current Array: " << Array << endl;
+    cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
+    cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
+
+    // deleting:
+    cout << "Deleting element at index '1'" << endl;
+    Array.Remove(1);
+    cout << "current Array: " << Array << endl;
+    cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
+    cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
+    
     Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, 8, 7, 11};
     DynamicArray<int> TestArray = Array;
 
