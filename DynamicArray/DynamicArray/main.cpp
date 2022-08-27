@@ -16,33 +16,34 @@ double CalcStdDeviation(DynamicArray<double>& Timings, double MeanDuration);
 int main()
 {
     DynamicArray<int> Array = {0};
-    cout << Array << endl;
     Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, 8, 7, 11};
-    cout << Array << endl;
     DynamicArray<int> TestArray = Array;
 
-    // sorting algorithms:
+    // benchmarking variables.
     chrono::time_point<chrono::high_resolution_clock> Start;
     chrono::time_point<chrono::high_resolution_clock> Finish;
-    int NumItter{static_cast<int>(1e3)};
-    double MeanDuration{}, StdDeviation{};
-    DynamicArray<double> Timings(NumItter, 0);
+    int NumItter{static_cast<int>(1e3)}; // number of sorts to perform when measuring execution time.
+    double MeanDuration{}, StdDeviation{};  // Variables for mean and standard deviation.
+    DynamicArray<double> Timings(NumItter, 0);  // for storing time from each iteration.
+    cout << fixed << setprecision(2);  // print with two sig-figs.
 
-    cout << fixed << setprecision(2);
+    // sorting algorithms:
     cout << "Selection sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     for (int i = 0; i < NumItter; ++i)
     {
-        TestArray = Array;
+        TestArray = Array;  // reset array
         Start = chrono::high_resolution_clock::now();
-        Sorters::SelectionSort(TestArray);
+        Sorters::SelectionSort(TestArray); // measuring sort itself.
         Finish = chrono::high_resolution_clock::now();
+        // adding up and storing measured time.
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
-    MeanDuration /= NumItter;
-    StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+    MeanDuration /= NumItter;  // calculating mean.
+    StdDeviation = CalcStdDeviation(Timings, MeanDuration);  // calculating standard deviation.
     cout << "Sorted: " << TestArray << endl;
-    cout << "Elapsed time: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " ns." << endl << endl;
+    // printing mean time per sort plus-minus standard deviation in nanoseconds:
+    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     cout << "Bubble sort:" << endl;
@@ -61,7 +62,7 @@ int main()
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
     cout << "Number of swaps: " << NumSwaps << endl;
-    cout << "Elapsed time: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " ns." << endl << endl;
+    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     cout << "Merge sort:" << endl;
@@ -78,7 +79,7 @@ int main()
     MeanDuration /= NumItter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
-    cout << "Elapsed time: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " ns." << endl << endl;
+    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     cout << "Quick sort:" << endl;
@@ -95,7 +96,7 @@ int main()
     MeanDuration /= NumItter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
-    cout << "Elapsed time: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " ns." << endl << endl;
+    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     cout << "Heap sort:" << endl;
@@ -112,7 +113,7 @@ int main()
     MeanDuration /= NumItter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
-    cout << "Elapsed time: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " ns." << endl << endl;
+    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
 
     return 0;
 }
