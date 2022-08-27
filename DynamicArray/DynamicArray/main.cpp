@@ -36,7 +36,7 @@ int main()
         Start = chrono::high_resolution_clock::now();
         Sorters::SelectionSort(TestArray); // measuring sort itself.
         Finish = chrono::high_resolution_clock::now();
-        // adding up and storing measured time.
+        // adding up and storing measured time:
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
     MeanDuration /= NumItter;  // calculating mean.
