@@ -104,6 +104,7 @@ DynamicArray<T>::DynamicArray()
 template <typename T>
 DynamicArray<T>::DynamicArray(size_t InitialSize)
 {
+    // delete[] Data_;
     Size_ = Capacity_ = InitialSize;
     Data_ = new T[Capacity_];
 }
@@ -281,7 +282,6 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& OtherArray)
     
     return *this;
 }
-
 
 /**
  * \brief Reallocate internal data array.
