@@ -22,15 +22,15 @@ int main()
     // benchmarking variables.
     chrono::time_point<chrono::high_resolution_clock> Start;
     chrono::time_point<chrono::high_resolution_clock> Finish;
-    int NumItter{static_cast<int>(1e3)}; // number of sorts to perform when measuring execution time.
+    int NumIter{static_cast<int>(1e3)}; // number of sorts to perform when measuring execution time.
     double MeanDuration{}, StdDeviation{};  // Variables for mean and standard deviation.
-    DynamicArray<double> Timings(NumItter, 0);  // for storing time from each iteration.
+    DynamicArray<double> Timings(NumIter, 0);  // for storing time from each iteration.
     cout << fixed << setprecision(2);  // print with two sig-figs.
 
     // sorting algorithms:
     cout << "Selection sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
-    for (int i = 0; i < NumItter; ++i)
+    for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;  // reset array
         Start = chrono::high_resolution_clock::now();
@@ -39,7 +39,7 @@ int main()
         // adding up and storing measured time:
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
-    MeanDuration /= NumItter;  // calculating mean.
+    MeanDuration /= NumIter;  // calculating mean.
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);  // calculating standard deviation.
     cout << "Sorted: " << TestArray << endl;
     // printing mean time per sort plus-minus standard deviation in nanoseconds:
@@ -50,7 +50,7 @@ int main()
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
     int NumSwaps{};
-    for (int i = 0; i < NumItter; ++i)
+    for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
         Start = chrono::high_resolution_clock::now();
@@ -58,7 +58,7 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
-    MeanDuration /= NumItter;
+    MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
     cout << "Number of swaps: " << NumSwaps << endl;
@@ -68,7 +68,7 @@ int main()
     cout << "Merge sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
-    for (int i = 0; i < NumItter; ++i)
+    for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
         Start = chrono::high_resolution_clock::now();
@@ -76,7 +76,7 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
-    MeanDuration /= NumItter;
+    MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
     cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
@@ -85,7 +85,7 @@ int main()
     cout << "Quick sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
-    for (int i = 0; i < NumItter; ++i)
+    for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
         Start = chrono::high_resolution_clock::now();
@@ -93,7 +93,7 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
-    MeanDuration /= NumItter;
+    MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
     cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
@@ -102,7 +102,7 @@ int main()
     cout << "Heap sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
-    for (int i = 0; i < NumItter; ++i)
+    for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
         Start = chrono::high_resolution_clock::now();
@@ -110,7 +110,7 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
-    MeanDuration /= NumItter;
+    MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
     cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
