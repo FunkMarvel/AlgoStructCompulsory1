@@ -58,6 +58,7 @@ public:
     int Find(T SearchValue, bool Linear = false);
     void ShrinkToFit();
     void Reverse();
+    size_t FindSmallestPowerOf2() const;
 
     void Swap(size_t FirstIndex, size_t SecondIndex);
 
@@ -69,15 +70,15 @@ public:
     static T BinarySearch(DynamicArray<T>& Array, T Key);
     int BinarySearch(T key);
 
-    // opperatpor overloads:
+    // operator overloads:
     T& operator[](size_t Index);
     DynamicArray<T>& operator=(const DynamicArray<T>& OtherArray);
 
     /**
      * \brief Add elements of array to out-stream.
-     * \param out Ostream reference.
+     * \param out output-stream reference.
      * \param SomeArray array to extract.
-     * \return Ostream reference.
+     * \return output-stream reference.
      */
     friend std::ostream& operator<<(std::ostream& out, DynamicArray<T>& SomeArray)
     {
@@ -105,19 +106,20 @@ template <typename T>
 DynamicArray<T>::DynamicArray(size_t InitialSize)
 {
     // delete[] Data_;
-    Size_ = Capacity_ = InitialSize;
+    Size_ = InitialSize;
+    Capacity_ = FindSmallestPowerOf2();
     Data_ = new T[Capacity_];
 }
 
 /**
  * \brief Create array of given size, and filled with given element.
- * \param InitialSize Number of elments.
+ * \param InitialSize Number of elements.
  * \param ElementToFill Value to fill array with.
  */
 template <typename T>
 DynamicArray<T>::DynamicArray(size_t InitialSize, T ElementToFill) : DynamicArray(InitialSize)
 {
-    for (int i = 0; i < Capacity_; ++i)
+    for (size_t i = 0; i < Capacity_; ++i)
         Data_[i] = ElementToFill;
 }
 
@@ -194,10 +196,10 @@ template <typename T>
 void DynamicArray<T>::Expand(size_t NewCapacity)
 {
     // if given capacity is less than the number of elements
-    // the array will instead shrink to smallest Size that can hold all data.
+    // the array will instead shrink to smallest power of 2 that can hold all data:
     if (NewCapacity <= Size_)
     {
-        Capacity_ = Size_;
+        Capacity_ = FindSmallestPowerOf2();
         ReallocateData();
         return;
     }
@@ -220,7 +222,8 @@ T DynamicArray<T>::Remove(size_t Index)
     // using memmove to copy data, because source and destination overlaps:
     memmove(Data_ + Index, Data_ + Index + 1, (Size_ - Index - 1) * sizeof(Data_[0]));
 
-    if (--Size_ < Capacity_ / 2) ShrinkToFit();  // reduce amount of unused memory.
+    // decrease amount of allocated memory if less than 75% is used:
+    if (static_cast<double>(--Size_) < 0.75*static_cast<double>(Capacity_)) ShrinkToFit();
     return RemovedElement;
 }
 
@@ -314,8 +317,7 @@ void DynamicArray<T>::GrowAndReallocate()
 template <typename T>
 void DynamicArray<T>::ShrinkToFit()
 {
-    if (Capacity_ <= GrowthFactor_ * Size_) return;
-    Capacity_ /= GrowthFactor_;
+    Capacity_ = FindSmallestPowerOf2();
     ReallocateData();
 }
 
@@ -328,6 +330,28 @@ void DynamicArray<T>::Reverse()
     if (Size_ <= 0) return;
     for (size_t i = 0; i < Size_/2; ++i)
         Swap(i, Size_-i-1);
+}
+
+/**
+ * \brief Finds smallest 2^N > Size_.
+ * \return 2^N.
+ */
+template <typename T>
+size_t DynamicArray<T>::FindSmallestPowerOf2() const
+{
+    // Temp vars:
+    size_t NewCap{1};
+    auto NumElems = Size_;
+
+    // finds ceil(log2(Size_)) using bit-shifts:
+    int N{1};
+    while (NumElems >>= 1) ++N;
+
+    // calculate 2^N;
+    for (int i = 1; i <= N; ++i)
+        NewCap *= 2;
+
+    return NewCap;
 }
 
 /**
