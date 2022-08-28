@@ -18,7 +18,7 @@ int main()
     DynamicArray<int> Array = {0};
     Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, 8, 7, 11};
     DynamicArray<int> TestArray = Array;
-
+    
     // benchmarking variables.
     chrono::time_point<chrono::high_resolution_clock> Start;
     chrono::time_point<chrono::high_resolution_clock> Finish;
@@ -114,7 +114,8 @@ int main()
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     cout << "Sorted: " << TestArray << endl;
     cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
-
+    TestArray = Array;
+    
     cout << "Counting Sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
