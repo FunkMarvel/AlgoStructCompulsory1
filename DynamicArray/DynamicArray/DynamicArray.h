@@ -15,7 +15,6 @@ private:
     T* Data_{nullptr};
 
     // internal variables:
-    const size_t GrowthFactor_{2}; // amount to increase capacity by when reallocating.
     size_t Capacity_{1}; // initial amount elements to allocate data for.
     size_t Size_{0}; // initial amount of elements in DynamicArray.
 
@@ -37,7 +36,7 @@ public:
      * \return Number of elements in array.
      */
     size_t GetSize() const { return Size_; }
-    
+
     /**
      * \return Number of elements there is allocated space for.
      */
@@ -158,8 +157,9 @@ template <typename T>
 void DynamicArray<T>::Append(T NewValue)
 {
     // reallocate data array if necessary:
+    Size_++;
     if (Size_ >= Capacity_) GrowAndReallocate();
-    Data_[Size_++] = NewValue;
+    Data_[Size_ - 1] = NewValue;
 }
 
 /**
@@ -223,7 +223,7 @@ T DynamicArray<T>::Remove(size_t Index)
     memmove(Data_ + Index, Data_ + Index + 1, (Size_ - Index - 1) * sizeof(Data_[0]));
 
     // decrease amount of allocated memory if less than 75% is used:
-    if (static_cast<double>(--Size_) < 0.75*static_cast<double>(Capacity_)) ShrinkToFit();
+    if (static_cast<double>(--Size_) <= 0.75 * static_cast<double>(Capacity_)) ShrinkToFit();
     return RemovedElement;
 }
 
@@ -273,7 +273,7 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& OtherArray)
 {
     // if assigned to self:
     if (this == &OtherArray) return *this;
-    
+
     // delete already allocated data:
     delete[] Data_;
 
@@ -281,8 +281,8 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& OtherArray)
     Capacity_ = OtherArray.Capacity_;
     Size_ = OtherArray.Size_;
     Data_ = new T[Capacity_];
-    memcpy(Data_, OtherArray.Data_, Size_*sizeof(Data_[0]));
-    
+    memcpy(Data_, OtherArray.Data_, Size_ * sizeof(Data_[0]));
+
     return *this;
 }
 
@@ -307,12 +307,12 @@ void DynamicArray<T>::ReallocateData()
 template <typename T>
 void DynamicArray<T>::GrowAndReallocate()
 {
-    Capacity_ *= GrowthFactor_;
+    Capacity_ = FindSmallestPowerOf2();
     ReallocateData();
 }
 
 /**
- * \brief Shrinks array if < 50% of allocated memory is used.
+ * \brief Shrinks array capacity to smallest power of 2 greater than number of elements.
  */
 template <typename T>
 void DynamicArray<T>::ShrinkToFit()
@@ -328,8 +328,8 @@ template <typename T>
 void DynamicArray<T>::Reverse()
 {
     if (Size_ <= 0) return;
-    for (size_t i = 0; i < Size_/2; ++i)
-        Swap(i, Size_-i-1);
+    for (size_t i = 0; i < Size_ / 2; ++i)
+        Swap(i, Size_ - i - 1);
 }
 
 /**
@@ -339,17 +339,19 @@ void DynamicArray<T>::Reverse()
 template <typename T>
 size_t DynamicArray<T>::FindSmallestPowerOf2() const
 {
+    if (Size_ <= 1) return 1;
+
     // Temp vars:
     size_t NewCap{1};
     auto NumElems = Size_;
 
     // finds ceil(log2(Size_)) using bit-shifts:
-    int N{1};
+    int N{0};
     while (NumElems >>= 1) ++N;
 
-    // calculate 2^N;
-    for (int i = 1; i <= N; ++i)
-        NewCap *= 2;
+    // calculate 2^N by shifting non-zero bit to needed spot:
+    NewCap <<= N;
+    if (NewCap < Size_) NewCap <<= 1;
 
     return NewCap;
 }
