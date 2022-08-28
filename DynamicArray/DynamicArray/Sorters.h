@@ -53,13 +53,14 @@ void Sorters::HeapSort(DynamicArray<T>& Array)
 {
     // Organize Array into max-heap:
     SortersHelpers::Heapify(Array);
-    
+
     int NumElements = static_cast<int>(Array.GetSize()); // saving amount of elements to sort.
 
-    for (int i = 0; i < static_cast<const int>(Array.GetSize())-1; ++i) // looping until there is only one element left.
+    for (int i = 0; i < static_cast<const int>(Array.GetSize()) - 1; ++i)
+    // looping until there is only one element left.
     {
         // swaps final leaf with root, putting the root in its sorted position at end of array:
-        Array.Swap(0, NumElements-1);
+        Array.Swap(0, NumElements - 1);
 
         // sifting down new root to restore heap property:
         SortersHelpers::SiftDown(Array, 0, --NumElements);
@@ -175,7 +176,7 @@ void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
     }
     if (End == -10000)
     {
-        End = static_cast<int>(Array.GetSize())-1;
+        End = static_cast<int>(Array.GetSize()) - 1;
     }
     if (End <= Start)
     {
