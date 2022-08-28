@@ -48,9 +48,14 @@ int main()
     cout << "current Array: " << Array << endl;
     cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
     cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
-    
+
+    // assigning new values:
+    cout << "Creating new array to test binary and linear search: " << endl;
     Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, 8, 7, 11};
     DynamicArray<int> TestArray = Array;
+    cout << "current Array: " << Array << endl;
+    cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
+    cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
 
     // benchmarking variables.
     chrono::time_point<chrono::high_resolution_clock> Start;
