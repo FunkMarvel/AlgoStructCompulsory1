@@ -26,87 +26,103 @@ int main()
     double MeanDuration{}, StdDeviation{};  // Variables for mean and standard deviation.
     DynamicArray<double> Timings(NumItter, 0);  // for storing time from each iteration.
     cout << fixed << setprecision(2);  // print with two sig-figs.
+    //
+    // // sorting algorithms:
+    // cout << "Selection sort:" << endl;
+    // cout << "Unsorted: " << TestArray << endl;
+    // for (int i = 0; i < NumItter; ++i)
+    // {
+    //     TestArray = Array;  // reset array
+    //     Start = chrono::high_resolution_clock::now();
+    //     Sorters::SelectionSort(TestArray); // measuring sort itself.
+    //     Finish = chrono::high_resolution_clock::now();
+    //     // adding up and storing measured time:
+    //     MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
+    // }
+    // MeanDuration /= NumItter;  // calculating mean.
+    // StdDeviation = CalcStdDeviation(Timings, MeanDuration);  // calculating standard deviation.
+    // cout << "Sorted: " << TestArray << endl;
+    // // printing mean time per sort plus-minus standard deviation in nanoseconds:
+    // cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
+    // TestArray = Array;
+    //
+    // cout << "Bubble sort:" << endl;
+    // cout << "Unsorted: " << TestArray << endl;
+    // MeanDuration = 0;
+    // int NumSwaps{};
+    // for (int i = 0; i < NumItter; ++i)
+    // {
+    //     TestArray = Array;
+    //     Start = chrono::high_resolution_clock::now();
+    //     NumSwaps = Sorters::BubbleSort(TestArray);
+    //     Finish = chrono::high_resolution_clock::now();
+    //     MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
+    // }
+    // MeanDuration /= NumItter;
+    // StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+    // cout << "Sorted: " << TestArray << endl;
+    // cout << "Number of swaps: " << NumSwaps << endl;
+    // cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
+    // TestArray = Array;
+    //
+    // cout << "Merge sort:" << endl;
+    // cout << "Unsorted: " << TestArray << endl;
+    // MeanDuration = 0;
+    // for (int i = 0; i < NumItter; ++i)
+    // {
+    //     TestArray = Array;
+    //     Start = chrono::high_resolution_clock::now();
+    //     Sorters::MergeSort(TestArray);
+    //     Finish = chrono::high_resolution_clock::now();
+    //     MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
+    // }
+    // MeanDuration /= NumItter;
+    // StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+    // cout << "Sorted: " << TestArray << endl;
+    // cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
+    // TestArray = Array;
+    //
+    // cout << "Quick sort:" << endl;
+    // cout << "Unsorted: " << TestArray << endl;
+    // MeanDuration = 0;
+    // for (int i = 0; i < NumItter; ++i)
+    // {
+    //     TestArray = Array;
+    //     Start = chrono::high_resolution_clock::now();
+    //     Sorters::QuickSort(TestArray);
+    //     Finish = chrono::high_resolution_clock::now();
+    //     MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
+    // }
+    // MeanDuration /= NumItter;
+    // StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+    // cout << "Sorted: " << TestArray << endl;
+    // cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
+    // TestArray = Array;
+    //
+    // cout << "Heap sort:" << endl;
+    // cout << "Unsorted: " << TestArray << endl;
+    // MeanDuration = 0;
+    // for (int i = 0; i < NumItter; ++i)
+    // {
+    //     TestArray = Array;
+    //     Start = chrono::high_resolution_clock::now();
+    //     Sorters::HeapSort(TestArray);
+    //     Finish = chrono::high_resolution_clock::now();
+    //     MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
+    // }
+    // MeanDuration /= NumItter;
+    // StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+    // cout << "Sorted: " << TestArray << endl;
+    // cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
 
-    // sorting algorithms:
-    cout << "Selection sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
-    for (int i = 0; i < NumItter; ++i)
-    {
-        TestArray = Array;  // reset array
-        Start = chrono::high_resolution_clock::now();
-        Sorters::SelectionSort(TestArray); // measuring sort itself.
-        Finish = chrono::high_resolution_clock::now();
-        // adding up and storing measured time:
-        MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
-    }
-    MeanDuration /= NumItter;  // calculating mean.
-    StdDeviation = CalcStdDeviation(Timings, MeanDuration);  // calculating standard deviation.
-    cout << "Sorted: " << TestArray << endl;
-    // printing mean time per sort plus-minus standard deviation in nanoseconds:
-    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
-    TestArray = Array;
-
-    cout << "Bubble sort:" << endl;
+    cout << "Counting Sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
-    int NumSwaps{};
     for (int i = 0; i < NumItter; ++i)
     {
         TestArray = Array;
         Start = chrono::high_resolution_clock::now();
-        NumSwaps = Sorters::BubbleSort(TestArray);
-        Finish = chrono::high_resolution_clock::now();
-        MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
-    }
-    MeanDuration /= NumItter;
-    StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Number of swaps: " << NumSwaps << endl;
-    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
-    TestArray = Array;
-
-    cout << "Merge sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
-    MeanDuration = 0;
-    for (int i = 0; i < NumItter; ++i)
-    {
-        TestArray = Array;
-        Start = chrono::high_resolution_clock::now();
-        Sorters::MergeSort(TestArray);
-        Finish = chrono::high_resolution_clock::now();
-        MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
-    }
-    MeanDuration /= NumItter;
-    StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
-    TestArray = Array;
-
-    cout << "Quick sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
-    MeanDuration = 0;
-    for (int i = 0; i < NumItter; ++i)
-    {
-        TestArray = Array;
-        Start = chrono::high_resolution_clock::now();
-        Sorters::QuickSort(TestArray);
-        Finish = chrono::high_resolution_clock::now();
-        MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
-    }
-    MeanDuration /= NumItter;
-    StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Time per sort: " << MeanDuration*1e9 << " +/- " << StdDeviation*1e9 << " nanoseconds" << endl << endl;
-    TestArray = Array;
-
-    cout << "Heap sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
-    MeanDuration = 0;
-    for (int i = 0; i < NumItter; ++i)
-    {
-        TestArray = Array;
-        Start = chrono::high_resolution_clock::now();
-        Sorters::HeapSort(TestArray);
+        Sorters::CountingSort(TestArray);
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
