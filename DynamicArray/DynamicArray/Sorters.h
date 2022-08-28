@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include <algorithm>
+#include <vector>
+
 #include "DynamicArray.h"
 
 /**
@@ -20,6 +23,11 @@ namespace Sorters
 
     template <typename T>
     void QuickSort(DynamicArray<T>& Array, int Start = -10000, int End = -10000);
+
+    template <typename T>
+    void CountingSort(DynamicArray<T>& Array);
+
+   
 }
 
 /**
@@ -128,6 +136,13 @@ int Sorters::BubbleSort(DynamicArray<T>& Array)
 }
 
 template <typename T>
+bool SortersHelpers::CompareBubbleSort(T a, T b)
+{
+    //Here i can decided  > if i want it inn a decreasing order or < increasing order;
+    return a > b;
+}
+
+template <typename T>
 void Sorters::MergeSort(DynamicArray<T>& Array)
 {
     const int Length = static_cast<int>(Array.GetSize());
@@ -189,10 +204,34 @@ void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
 }
 
 template <typename T>
-bool SortersHelpers::CompareBubbleSort(T a, T b)
+void Sorters::CountingSort(DynamicArray<T>& Array)
 {
-    //Here i can decided  > if i want it inn a decreasing order or < increasing order;
-    return a > b;
+    int MaxNum = -1; // initiialize  as -1 since we do not have negative ints. Find the Largest number in the array.
+    for (int i = 0; i < Array.GetSize(); i++)
+    {
+        MaxNum = std::max(MaxNum, Array[i]);
+    }
+
+    //Dynamic array since size can be unknown, need one more element than the original array.(initialized as zero)
+    std::vector<int> CountingArray(MaxNum + 1, (0));
+
+    //counting/updating the new array.
+    for (int i = 0; i < Array.GetSize(); i++)
+    {
+        ++CountingArray[Array[i]];
+    }
+
+    //refilling the elements into the original array.
+    int j = 0;
+    for (int i = 0; i <= MaxNum; i++)
+    {
+        while (CountingArray[i] > 0)
+        {
+            Array[j] = i;
+            CountingArray[i]--;
+            j++;
+        }
+    }
 }
 
 /**
