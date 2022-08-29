@@ -57,7 +57,7 @@ int main()
     LargeArray.Expand(1000);
     for (int i = 0; i < 1000; i++)
     {
-        LargeArray.Append(rand() % 1000);
+        LargeArray.Append(rand() % 800 - 200);
     }
 
 
@@ -201,7 +201,7 @@ int main()
     cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
     TestArray = LargeArray;
 
-
+ 
     cout << "Intro Sort Large:" << endl;
     cout << "Unsorted: " << LargeArray << endl;
     MeanDuration = 0;

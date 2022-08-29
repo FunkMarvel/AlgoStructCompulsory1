@@ -260,16 +260,16 @@ void Sorters::insertionSort(DynamicArray<T>& Array, int Start, int End)
 
     for (int i = Start + 1; i <= End; i++)
     {
-        int key = Array[i];
+        int Current = Array[i];
         int j = i - 1;
 
 
-        while (j >= Start && Array[j] > key)
+        while (j >= Start && Array[j] > Current)
         {
             Array[j + 1] = Array[j];
-            j = j - 1;
+            j--;
         }
-        Array[j + 1] = key;
+        Array[j + 1] = Current;
     }
 }
 
