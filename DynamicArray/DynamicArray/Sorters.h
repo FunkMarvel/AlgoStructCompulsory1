@@ -27,7 +27,15 @@ namespace Sorters
     template <typename T>
     void CountingSort(DynamicArray<T>& Array);
 
-   
+    template <typename T>
+    void insertionSort(DynamicArray<T>& Array, int Start = -10000, int End = -10000);
+
+    template <typename T>
+    void IntroSort(DynamicArray<T>& Array, int Start = -10000, int End = -10000);
+
+
+    template <typename T>
+    void IntroSortUtility(DynamicArray<T>& Array, int Start, int End, int RangeLimit);
 }
 
 /**
@@ -234,6 +242,78 @@ void Sorters::CountingSort(DynamicArray<T>& Array)
     }
 }
 
+template <typename T>
+void Sorters::insertionSort(DynamicArray<T>& Array, int Start, int End)
+{
+    if (Start == -10000)
+    {
+        Start = 0;
+    }
+    if (End == -10000)
+    {
+        End = static_cast<int>(Array.GetSize()) - 1;
+    }
+    if (End <= Start)
+    {
+        return;
+    }
+
+    for (int i = Start + 1; i <= End; i++)
+    {
+        int key = Array[i];
+        int j = i - 1;
+
+
+        while (j >= Start && Array[j] > key)
+        {
+            Array[j + 1] = Array[j];
+            j = j - 1;
+        }
+        Array[j + 1] = key;
+    }
+}
+
+
+template <typename T>
+void Sorters::IntroSortUtility(DynamicArray<T>& Array, int Start, int End, int RangeLimit)
+{
+    int Size = End - Start;
+    if (Size < 16)
+    {
+        Sorters::insertionSort(Array, Start, End);
+        return;
+    }
+    if (RangeLimit == 0)
+    {
+        Sorters::HeapSort(Array);
+        return;
+    }
+    Sorters::QuickSort(Array, Start, End);
+}
+
+template <typename T>
+void Sorters::IntroSort(DynamicArray<T>& Array, int Start, int End)
+{
+    if (Start == -10000)
+    {
+        Start = 0;
+    }
+    if (End == -10000)
+    {
+        End = static_cast<int>(Array.GetSize()) - 1;
+    }
+    if (End <= Start)
+    {
+        return;
+    }
+    Start = 0;
+    End = Array.GetSize() - 1;
+
+    int RangeLimit = 2 * std::log(End - Start);
+
+    Sorters::IntroSortUtility(Array, Start, End, RangeLimit);
+}
+
 /**
  * \brief Performing sift-down procedure on given node of array-based binary tree.
  * \tparam T Data type of elements in array.
@@ -324,8 +404,8 @@ void SortersHelpers::Merge(DynamicArray<T>& Array, DynamicArray<T>& LeftArray, D
 template <typename T>
 int SortersHelpers::ArrayPartition(DynamicArray<T>& Array, int Start, int End)
 {
-    auto FocusPivot = Array[End];
-    auto i = Start - 1;
+    int FocusPivot = Array[End];
+    int i = Start - 1;
 
     for (int j = Start; j <= End; j++)
     {
