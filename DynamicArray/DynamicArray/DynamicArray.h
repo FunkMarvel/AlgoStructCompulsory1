@@ -54,7 +54,7 @@ public:
     void Expand(size_t NewCapacity);
     T Remove(size_t Index);
     T RemoveLastElement();
-    int Find(T SearchValue, bool Linear = false);
+    int Find(T SearchValue, bool Linear = true);
     void ShrinkToFit();
     void Reverse();
     size_t FindSmallestPowerOf2() const;
