@@ -51,8 +51,15 @@ int main()
     cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
 
     // assigning new values:
+    DynamicArray<int> TestArray = Array;
     cout << "Creating new array to test binary and linear search: " << endl;
     Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, -8, 7, 11};
+    cout << "Linear search for: -8 in array:" << endl;
+    cout << " -8 is at index: " << Array.Find(-8) << endl;
+    cout << "Binary search of sorted array: " << endl;
+    Sorters::QuickSort(TestArray);
+    cout << " -8 is at index: " << TestArray.Find(-8, false) << endl;
+    
     //Creating a Large test Array for testing
     LargeArray.Expand(1000);
     for (int i = 0; i < 1000; i++)
@@ -60,8 +67,7 @@ int main()
         LargeArray.Append(rand() % 800 - 200);
     }
 
-
-    DynamicArray<int> TestArray = Array;
+    TestArray = Array;
     cout << "current Array: " << Array << endl;
     cout << "Has memory allocated for " << Array.GetCapacity() << " number of element(s)." << endl;
     cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
@@ -182,7 +188,6 @@ int main()
     cout << "Sorted: " << TestArray << endl;
     cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
     TestArray = LargeArray;
-
 
     cout << "Insertion Sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
