@@ -4,7 +4,7 @@
 #include <iostream>
 
 /**
- * \brief Dynamic Array class made by Anders Petershagen Åsbø and Thomas Dalstein Sæther.
+ * \brief Dynamic Array class made by Anders Petershagen Asbo and Thomas Dalstein Saether.
  * \tparam T Element data type.
  */
 template <typename T>
@@ -54,7 +54,7 @@ public:
     void Expand(size_t NewCapacity);
     T Remove(size_t Index);
     T RemoveLastElement();
-    int Find(T SearchValue, bool Linear = true);
+    int Find(T SearchValue, bool Binary = false);
     void ShrinkToFit();
     void Reverse();
     size_t FindSmallestPowerOf2() const;
@@ -240,14 +240,14 @@ T DynamicArray<T>::RemoveLastElement()
 /**
  * \brief Find index of element in array.
  * \param SearchValue Element to search for.
- * \param Linear If true, use linear search.
+ * \param Binary If true, use linear search.
  * \return Returns index of element, or -1 if element not in array.
  */
 template <typename T>
-int DynamicArray<T>::Find(T SearchValue, bool Linear)
+int DynamicArray<T>::Find(T SearchValue, bool Binary)
 {
-    if (Linear) return LinearSearch(SearchValue);
-    return BinarySearch(SearchValue);
+    if (Binary) return BinarySearch(SearchValue);
+    return LinearSearch(SearchValue);
 }
 
 
@@ -390,7 +390,7 @@ T DynamicArray<T>::LinearSearch(DynamicArray<T>& Array, T Key)
 template <typename T>
 int DynamicArray<T>::LinearSearch(T Key)
 {
-    for (int i = 0; i < Size_; i++)
+    for (int i = 0; i < static_cast<int>(Size_); i++)
     {
         //check if current element matches the key
         if (Data_[i] == Key)
@@ -438,7 +438,7 @@ int DynamicArray<T>::BinarySearch(T key)
 {
     int Start = 0;
     // N - 1 is the last element in an array
-    int End = Size_ - 1;
+    int End = static_cast<int>(Size_ - 1);
     //K = Log(2)^N ---- O(Log.N) Example(16->8->4->2->1) log(2)^16 = 4.
     while (Start <= End)
     {
@@ -457,6 +457,7 @@ int DynamicArray<T>::BinarySearch(T key)
         {
             Start = mid + 1;
         }
+        auto dat = Data_[mid];
     }
 
     return -1;
