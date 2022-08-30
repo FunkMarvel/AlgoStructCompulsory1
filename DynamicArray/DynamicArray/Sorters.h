@@ -288,7 +288,11 @@ void Sorters::IntroSortUtility(DynamicArray<T>& Array, int Start, int End, int R
         Sorters::HeapSort(Array);
         return;
     }
-    Sorters::QuickSort(Array, Start, End);
+   
+    const int FocusPivot = SortersHelpers::ArrayPartition(Array, Start, End);
+    IntroSortUtility(Array, Start, FocusPivot - 1,RangeLimit - 1);
+    IntroSortUtility(Array, FocusPivot + 1, End,RangeLimit - 1);
+    
 }
 
 template <typename T>
