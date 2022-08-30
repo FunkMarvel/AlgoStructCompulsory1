@@ -83,6 +83,8 @@ int main()
 
     // sorting algorithms:
     cout << "Selection sort:" << endl;
+    cout << "Time complexity: Best = O(n^2) , Worst = O(n^2) , Average = O(n^2))" << endl;
+    cout << "Space complexity: 1" << endl;
     cout << "Unsorted: " << TestArray << endl;
     for (int i = 0; i < NumIter; ++i)
     {
@@ -104,6 +106,8 @@ int main()
     TestArray = Array;
 
     cout << "Bubble sort:" << endl;
+    cout << "Time complexity: Best = O(n) , Worst = O(n^2) , Average = O(n^2))" << endl;
+    cout << "Space complexity: O(1)" << endl;
     cout << "Unsorted: " << TestArray << endl;
 
     MeanDuration = 0;
@@ -128,6 +132,8 @@ int main()
     TestArray = Array;
 
     cout << "Merge sort:" << endl;
+    cout << "Time complexity: Best = O(n*log(n)) , Worst = O(n*log(n)) , Average = O(n*log(n))" << endl;
+    cout << "Space complexity: O(n)" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
 
@@ -152,6 +158,8 @@ int main()
 
     // cout << "Counting Sort:" << endl;
     // cout << "Unsorted: " << TestArray << endl;
+    // cout << "Time complexity: Best = O(n*log(n)) , Worst = O(n*log(n)) , Average = O(n*log(n))" << endl;
+    //cout << "Space complexity: O(n)" << endl;
     // MeanDuration = 0;
     // for (int i = 0; i < NumIter; ++i)
     // {
@@ -168,6 +176,8 @@ int main()
     // TestArray = LargeArray;
 
     cout << "Quick sort:" << endl;
+    cout << "Time complexity: Best = O(n*log(n)) , Worst = O(n^2) , Average = O(n*log(n))" << endl;
+    cout << "Space complexity: O(log n)" << endl;
     // cout << "Unsorted: " << LargeArray << endl;
     MeanDuration = 0;
 
@@ -189,6 +199,8 @@ int main()
     TestArray = LargeArray;
 
     cout << "Heap sort:" << endl;
+    cout << "Time complexity: Best = O(n*log(n)) , Worst = O(n*log(n)) , Average = O(n*log(n))" << endl;
+    cout << "Space complexity: O(1)" << endl;
     // cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
 
@@ -211,6 +223,8 @@ int main()
 
     // Insertion sort:
     cout << "Insertion Sort:" << endl;
+    cout << "Time complexity: Best = O(n) , Worst = O(n^2) , Average = O(n^2)" << endl;
+    cout << "Space complexity: O(1)" << endl;
     // cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
 
@@ -232,7 +246,11 @@ int main()
     TestArray = LargeArray;
 
     // Introspective sort on large array:
+    // Intro sort is the best algorithm around. being a hybrid sorting algorithm uses three sorting algorithm -->
+    // to minimise the running time, Quicksort, Heapsort and Insertion Sort 
     cout << "Intro Sort Large:" << endl;
+    cout << "Time complexity: Best = O(n*log(n)) , Worst = O(n*log(n)) , Average = O(n*log(n))" << endl;
+    cout << "Space complexity: O(log(n)" << endl;
     // cout << "Unsorted: " << LargeArray << endl;
     MeanDuration = 0;
 
@@ -255,6 +273,8 @@ int main()
 
     // Introspective sort on small array:
     cout << "Intro Sort:" << endl;
+    cout << "Time complexity: Best = O(n*log(n)) , Worst = O(n*log(n)) , Average = O(n*log(n))" << endl;
+    cout << "Space complexity: O(log(n)" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
 
