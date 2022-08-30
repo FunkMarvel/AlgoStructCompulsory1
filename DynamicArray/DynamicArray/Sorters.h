@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include <algorithm>
-#include <vector>
+#include <algorithm> // std::max
 
 #include "DynamicArray.h"
 
 /**
  * \brief Library of sorting algorithms
+ * Compulsory 1, Anders Petershagen Asbo and Thomas Dalstein Saether
  */
 namespace Sorters
 {
@@ -47,7 +47,7 @@ namespace SortersHelpers
     bool CompareBubbleSort(T a, T b);
 
     template <typename T>
-    void SiftDown(DynamicArray<T>& Array, size_t NodeToSift, int NumElements);
+    void SiftDown(DynamicArray<T>& Array, size_t NodeToSift, size_t NumElements);
 
     template <typename T>
     void Heapify(DynamicArray<T>& Array);
@@ -206,7 +206,7 @@ void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
         return;
     }
 
-    int FocusPivot = SortersHelpers::ArrayPartition(Array, Start, End);
+    const int FocusPivot = SortersHelpers::ArrayPartition(Array, Start, End);
     QuickSort(Array, Start, FocusPivot - 1);
     QuickSort(Array, FocusPivot + 1, End);
 }
@@ -214,14 +214,14 @@ void Sorters::QuickSort(DynamicArray<T>& Array, int Start, int End)
 template <typename T>
 void Sorters::CountingSort(DynamicArray<T>& Array)
 {
-    int MaxNum = -1; // initiialize  as -1 since we do not have negative ints. Find the Largest number in the array.
+    int MaxNum = -1; // initialize  as -1 since we do not have negative ints. Find the Largest number in the array.
     for (int i = 0; i < Array.GetSize(); i++)
     {
         MaxNum = std::max(MaxNum, Array[i]);
     }
 
     //Dynamic array since size can be unknown, need one more element than the original array.(initialized as zero)
-    std::vector<int> CountingArray(MaxNum + 1, (0));
+    DynamicArray<int> CountingArray(MaxNum + 1, (0));
 
     //counting/updating the new array.
     for (int i = 0; i < Array.GetSize(); i++)
@@ -277,7 +277,7 @@ void Sorters::insertionSort(DynamicArray<T>& Array, int Start, int End)
 template <typename T>
 void Sorters::IntroSortUtility(DynamicArray<T>& Array, int Start, int End, int RangeLimit)
 {
-    int Size = End - Start;
+    const int Size = End - Start;
     if (Size < 16)
     {
         Sorters::insertionSort(Array, Start, End);
@@ -307,9 +307,9 @@ void Sorters::IntroSort(DynamicArray<T>& Array, int Start, int End)
         return;
     }
     Start = 0;
-    End = Array.GetSize() - 1;
+    End = static_cast<int>(Array.GetSize() - 1);
 
-    int RangeLimit = 2 * std::log(End - Start);
+    int RangeLimit = static_cast<int>(2 * std::log(End - Start));
 
     Sorters::IntroSortUtility(Array, Start, End, RangeLimit);
 }
@@ -322,7 +322,7 @@ void Sorters::IntroSort(DynamicArray<T>& Array, int Start, int End)
  * \param NumElements Number of elements in Array to consider sifting.
  */
 template <typename T>
-void SortersHelpers::SiftDown(DynamicArray<T>& Array, size_t NodeToSift, int NumElements)
+void SortersHelpers::SiftDown(DynamicArray<T>& Array, size_t NodeToSift, size_t NumElements)
 {
     size_t LargestNode{NodeToSift}; // Index of node to start shifting at.
     size_t LeftChild{2 * NodeToSift + 1}; // Index of left child node.
