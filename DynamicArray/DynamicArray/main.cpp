@@ -255,7 +255,7 @@ int main()
 
     // Introspective sort on small array:
     cout << "Intro Sort:" << endl;
-    // cout << "Unsorted: " << TestArray << endl;
+    cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
 
     for (int i = 0; i < NumIter; ++i)
