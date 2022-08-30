@@ -6,15 +6,16 @@
 
 using namespace std;
 
-
-//searching
-void BinarySort(DynamicArray<int>& Arr);
-void LinearSort(DynamicArray<int>& Arr);
-
 double CalcStdDeviation(DynamicArray<double>& Timings, double MeanDuration);
 
 int main()
 {
+    /* Compulsory 1, Anders Petershagen Asbo and Thomas Dalstein Saether.
+     * This main function contains demonstrations of each feature of the DynamicArray,
+     * and benchmarks for each sorting algorithm. Simply run it and look at the output to see the
+     * array in use.
+     */
+
     DynamicArray<int> Array = {0}; // initialize array with list.
     DynamicArray<int> LargeArray{};
     cout << "Testing array methods: " << endl;
@@ -51,15 +52,17 @@ int main()
     cout << "Currently contains " << Array.GetSize() << " number of element(s)." << endl << endl;
 
     // assigning new values:
+    Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, 8, 7, 11};
     DynamicArray<int> TestArray = Array;
     cout << "Creating new array to test binary and linear search: " << endl;
-    Array = {14, 6, 16, 3, 13, 20, 18, 1, 10, 5, 10, 3, 17, 2, 12, 4, 19, 7, 15, -8, 7, 11};
-    cout << "Linear search for: -8 in array:" << endl;
-    cout << " -8 is at index: " << Array.Find(-8) << endl;
+    cout << "Linear search for: 8 in array:" << endl;
+    cout << " 8 is at index: " << TestArray.Find(8) << endl;
+
     cout << "Binary search of sorted array: " << endl;
     Sorters::QuickSort(TestArray);
-    cout << " -8 is at index: " << TestArray.Find(-8, false) << endl;
-    
+    cout << " 8 is at index: " << TestArray.Find(8, false) << endl;
+    cout << "current Array: " << TestArray << endl;
+
     //Creating a Large test Array for testing
     LargeArray.Expand(1000);
     for (int i = 0; i < 1000; i++)
@@ -97,14 +100,17 @@ int main()
     double StdDeviation = CalcStdDeviation(Timings, MeanDuration); // calculating standard deviation.
 
     cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
     // printing mean time per sort plus-minus standard deviation in nanoseconds:
     cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     cout << "Bubble sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
+
     MeanDuration = 0;
     int NumSwaps{};
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
@@ -113,16 +119,20 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+
     cout << "Sorted: " << TestArray << endl;
     cout << "Number of swaps: " << NumSwaps << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
     cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     cout << "Merge sort:" << endl;
     cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
@@ -131,12 +141,16 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+
     cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
     cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
-    //DO not work with Negative numbers atm
+
+    ///DO not work with Negative numbers atm
 
     // cout << "Counting Sort:" << endl;
     // cout << "Unsorted: " << TestArray << endl;
@@ -153,11 +167,12 @@ int main()
     // StdDeviation = CalcStdDeviation(Timings, MeanDuration);
     // cout << "Sorted: " << TestArray << endl;
     // cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
-    TestArray = LargeArray;
+    // TestArray = LargeArray;
 
     cout << "Quick sort:" << endl;
-    cout << "Unsorted: " << LargeArray << endl;
+    // cout << "Unsorted: " << LargeArray << endl;
     MeanDuration = 0;
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = LargeArray;
@@ -166,15 +181,19 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
+
+    // cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
+    cout << "Time per sort: " << MeanDuration * 1e6 << " +/- " << StdDeviation * 1e6 << " microseconds" << endl << endl;
     TestArray = LargeArray;
 
     cout << "Heap sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
+    // cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = LargeArray;
@@ -183,15 +202,20 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
+
+    // cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
+    cout << "Time per sort: " << MeanDuration * 1e6 << " +/- " << StdDeviation * 1e6 << " microseconds" << endl << endl;
     TestArray = LargeArray;
 
+    // Insertion sort:
     cout << "Insertion Sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
+    // cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = LargeArray;
@@ -200,16 +224,20 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
+
+    // cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
+    cout << "Time per sort: " << MeanDuration * 1e6 << " +/- " << StdDeviation * 1e6 << " microseconds" << endl << endl;
     TestArray = LargeArray;
 
- 
+    // Introspective sort on large array:
     cout << "Intro Sort Large:" << endl;
-    cout << "Unsorted: " << LargeArray << endl;
+    // cout << "Unsorted: " << LargeArray << endl;
     MeanDuration = 0;
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = LargeArray;
@@ -218,15 +246,20 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
-    cout << "Sorted: " << TestArray << endl;
-    cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
+
+    // cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
+    cout << "Time per sort: " << MeanDuration * 1e6 << " +/- " << StdDeviation * 1e6 << " microseconds" << endl << endl;
     TestArray = Array;
 
+    // Introspective sort on small array:
     cout << "Intro Sort:" << endl;
-    cout << "Unsorted: " << TestArray << endl;
+    // cout << "Unsorted: " << TestArray << endl;
     MeanDuration = 0;
+
     for (int i = 0; i < NumIter; ++i)
     {
         TestArray = Array;
@@ -235,35 +268,16 @@ int main()
         Finish = chrono::high_resolution_clock::now();
         MeanDuration += Timings[i] = chrono::duration<double>(Finish - Start).count();
     }
+
     MeanDuration /= NumIter;
     StdDeviation = CalcStdDeviation(Timings, MeanDuration);
+
     cout << "Sorted: " << TestArray << endl;
+    cout << "Currently contains " << TestArray.GetSize() << " number of element(s)." << endl;
     cout << "Time per sort: " << MeanDuration * 1e9 << " +/- " << StdDeviation * 1e9 << " nanoseconds" << endl << endl;
     TestArray = Array;
 
     return 0;
-}
-
-/**
- * \brief Sorting array with BinarySort
- * \param Arr Array to be sorted
- */
-void BinarySort(DynamicArray<int>& Arr)
-{
-    int n = static_cast<int>(Arr.GetSize());
-    int key;
-    cin >> key;
-
-    int index = DynamicArray<int>::BinarySearch(Arr, key);
-
-    if (index != -1)
-    {
-        cout << key << " Is present in the index:" << index << endl;
-    }
-    else
-    {
-        cout << " Is MISSING from the index!" << endl;
-    }
 }
 
 
@@ -279,7 +293,7 @@ double CalcStdDeviation(DynamicArray<double>& Timings, double MeanDuration)
     const double NumElems{static_cast<double>(Timings.GetSize())};
     for (size_t i = 0; i < Timings.GetSize(); ++i)
     {
-        const auto Term{(Timings[i] - MeanDuration)};
+        const auto Term{Timings[i] - MeanDuration};
         SqrSum += Term * Term;
     }
     return sqrt(SqrSum / NumElems);
