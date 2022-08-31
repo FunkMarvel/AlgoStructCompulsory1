@@ -278,17 +278,20 @@ template <typename T>
 void Sorters::IntroSortUtility(DynamicArray<T>& Array, int Start, int End, int RangeLimit)
 {
     const int Size = End - Start;
+    //scientifically proven the best number for changing the sorting algorithm to insertion sort.
     if (Size < 16)
     {
         Sorters::insertionSort(Array, Start, End);
         return;
     }
+    //in niece cases where the partitioned array is not to long but not small enough to use insertion sort.
     if (RangeLimit == 0)
     {
         Sorters::HeapSort(Array);
         return;
     }
-   
+   //if the partitioned array is too long, use quick sort and not a Range limit of 00;.
+    //recursive call to run the checks on the partitioned arrays.
     const int FocusPivot = SortersHelpers::ArrayPartition(Array, Start, End);
     IntroSortUtility(Array, Start, FocusPivot - 1,RangeLimit - 1);
     IntroSortUtility(Array, FocusPivot + 1, End,RangeLimit - 1);
